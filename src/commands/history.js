@@ -1,4 +1,4 @@
-var addLineNumbers = require('../utils/lineNumber');
+var lineNumbers = require('../utils/lineNumber');
 
 // Default width for number column
 var numColumnWidth = 5;
@@ -13,7 +13,7 @@ function history(env, args) {
       }
       return false;
     });
-    env.output(addLineNumbers(numColumnWidth, splicedHistory).join('\n'));
+    env.output(lineNumbers.addLineNumbers(numColumnWidth, splicedHistory).join('\n'));
     env.exit();
   });
 }
