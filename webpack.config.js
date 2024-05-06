@@ -1,28 +1,42 @@
 const path = require('path');
+const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
   // Set the mode for development or production
-  mode: 'development', // Change to 'production' for production builds
+  mode: 'production', // Recommended for production builds, adjust for development
 
-  entry: './src/browser-version.js', // Your main entry point
+  // Entry point for your application
+  entry: './src/browser-version.js',
 
+  // Output configuration for the bundled file
   output: {
-    filename: 'bundle.js', // Output filename
-    path: path.resolve(__dirname, 'dist'), // Output directory (optional)
+    filename: 'bundle.min.js', // Output filename
+    path: path.resolve(__dirname, 'dist'), // Output directory
   },
 
+  // Module loaders for processing different file types
   module: {
     rules: [
       {
-        test: /\.js$/, // Apply this rule to all JavaScript files
-        exclude: /node_modules/, // Exclude node_modules folder
+        // Transpile JavaScript files with Babel
+        test: /\.js$/,
+        exclude: /node_modules/,
         use: {
-          loader: 'babel-loader', // Use Babel loader for transpilation
+          loader: 'babel-loader',
           options: {
             presets: ['@babel/preset-env'], // Preset for modern JS features
           },
         },
       },
+      // Add rules for other file types like CSS, images, etc. (optional)
+    ],
+  },
+
+  // Optimization options for production builds
+  optimization: {
+    minimize: true, // Enable minification
+    minimizer: [
+        new TerserPlugin(),
     ],
   },
 };
