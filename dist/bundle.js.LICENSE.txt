@@ -1,0 +1,5 @@
+/*! http://mths.be/repeat v0.2.0 by @mathias */
+
+/*! http://mths.be/startswith v0.2.0 by @mathias */
+
+/*! https://mths.be/includes v0.2.0 by @mathias */
