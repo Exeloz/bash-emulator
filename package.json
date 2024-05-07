@@ -34,8 +34,7 @@
   "license": "MIT",
   "dependencies": {
     "array.prototype.findindex": "^2.0.0",
-    "fs": "^0.0.1-security",
-    "node-fetch": "^2.7.0",
+    "firebase": "^10.11.1",
     "string.prototype.includes": "^1.0.0",
     "string.prototype.repeat": "^0.2.0",
     "string.prototype.startswith": "^0.2.0"
@@ -48,6 +47,7 @@
     "path": "^0.12.7",
     "standard": "^17.1.0",
     "tape": "^4.5.1",
+    "uglify-js": "^3.0.4",
     "webpack": "^5.91.0",
     "webpack-cli": "^5.1.4"
   }
