@@ -11,7 +11,7 @@ module.exports = {
   // Output configuration for the bundled file
   output: {
     filename: 'bundle.min.js', // Output filename
-    path: path.resolve(__dirname, 'dist'), // Output directory
+    path: path.resolve(__dirname, 'public'), // Output directory
   },
 
   // Module loaders for processing different file types
