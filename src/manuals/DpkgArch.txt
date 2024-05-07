@@ -1,0 +1,79 @@
+Dpkg::Arch(3perl)                                                    libdpkg-perl                                                    Dpkg::Arch(3perl)
+
+NAME
+       Dpkg::Arch - handle architectures
+
+DESCRIPTION
+       The Dpkg::Arch module provides functions to handle Debian architectures, wildcards, and mapping from and to GNU triplets.
+
+       No symbols are exported by default. The :all tag can be used to import all symbols. The :getters, :parsers, :mappers and :operators tags can be
+       used to import specific symbol subsets.
+
+FUNCTIONS
+       $arch = get_raw_build_arch()
+           Get the raw build Debian architecture, without taking into account variables from the environment.
+
+       $arch = get_build_arch()
+           Get the build Debian architecture, using DEB_BUILD_ARCH from the environment if available.
+
+       $arch = get_raw_host_arch()
+           Get the raw host Debian architecture, without taking into account variables from the environment.
+
+       $arch = get_host_arch()
+           Get the host Debian architecture, using DEB_HOST_ARCH from the environment if available.
+
+       @arch_list = get_valid_arches()
+           Get an array with all currently known Debian architectures.
+
+       $multiarch = gnutriplet_to_multiarch($gnutriplet)
+           Map a GNU triplet into a Debian multiarch triplet.
+
+       $multiarch = debarch_to_multiarch($arch)
+           Map a Debian architecture into a Debian multiarch triplet.
+
+       $gnutriplet = debarch_to_gnutriplet($arch)
+           Map a Debian architecture into a GNU triplet.
+
+       $arch = gnutriplet_to_debarch($gnutriplet)
+           Map a GNU triplet into a Debian architecture.
+
+       $bool = debarch_eq($arch_a, $arch_b)
+           Evaluate the equality of a Debian architecture, by comparing with another Debian architecture. No wildcard matching is performed.
+
+       $bool = debarch_is($arch, $arch_wildcard)
+           Evaluate the identity of a Debian architecture, by matching with an architecture wildcard.
+
+       $bool = debarch_is_wildcard($arch)
+           Evaluate whether a Debian architecture is an architecture wildcard.
+
+       $bool = debarch_is_illegal($arch, %options)
+           Validate an architecture name.
+
+           If the "positive" option is set to a true value, only positive architectures will be accepted, otherwise negated architectures are allowed.
+
+       $bool = debarch_is_concerned($arch, @arches)
+           Evaluate whether a Debian architecture applies to the list of architecture restrictions, as usually found in dependencies inside square
+           brackets.
+
+       @array = debarch_list_parse($arch_list, %options)
+           Parse an architecture list.
+
+           If the "positive" option is set to a true value, only positive architectures will be accepted, otherwise negated architectures are allowed.
+
+CHANGES
+   Version 1.03 (dpkg 1.19.1)
+       New argument: Accept a "positive" option in debarch_is_illegal() and debarch_list_parse().
+
+   Version 1.02 (dpkg 1.18.19)
+       New import tags: ":all", ":getters", ":parsers", ":mappers", ":operators".
+
+   Version 1.01 (dpkg 1.18.5)
+       New functions: debarch_is_illegal(), debarch_list_parse().
+
+   Version 1.00 (dpkg 1.18.2)
+       Mark the module as public.
+
+SEE ALSO
+       dpkg-architecture(1).
+
+1.21.22                                                               2023-05-11                                                     Dpkg::Arch(3perl)

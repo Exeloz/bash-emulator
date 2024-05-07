@@ -1,0 +1,14 @@
+Dpkg::Control::Fields(3perl)                                         libdpkg-perl                                         Dpkg::Control::Fields(3perl)
+
+NAME
+       Dpkg::Control::Fields - manage (list of official) control fields
+
+DESCRIPTION
+       The module contains a list of vendor-neutral and vendor-specific fieldnames with associated meta-data explaining in which type of control
+       information they are allowed. The vendor-neutral fieldnames and all functions are inherited from Dpkg::Control::FieldsCore.
+
+CHANGES
+   Version 1.00 (dpkg 1.15.6)
+       Mark the module as public.
+
+1.21.22                                                               2023-05-11                                          Dpkg::Control::Fields(3perl)

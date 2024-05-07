@@ -1,0 +1,38 @@
+PTDUMP(1)                                                       General Commands Manual                                                      PTDUMP(1)
+
+NAME
+       ptdump - Lets you dig into the contents of a PyTables file.
+
+SYNOPSIS
+       ptdump [-dvacih] [-R start,stop,step] file[:nodepath]
+
+DESCRIPTION
+       Allows  you  look into the contents of your PyTables files. It lets you see not only the data but also the metadata (that is, the structure and
+       additional information in the form of attributes).
+
+OPTIONS
+       A summary of options is included below.
+
+       -d     Dump data information on leaves.
+
+       -v     Dump more metainformation on nodes.
+
+       -a     Show attributes in nodes (only useful when -v or -d are active).
+
+       -c     Show info of columns in tables (only useful when -v or -d are active).
+
+       -i     Show info of indexed column (only useful when -v or -d are active).
+
+       -R start,stop,step
+              Select a range of rows in the form "start,stop,step" for all leaves.
+
+       -h     Print help on usage.
+
+SEE ALSO
+       ptrepack(1).
+       These utilities are documented fully by PyTables user's manual.
+
+AUTHOR
+       This manual page was written by Francesc Altet <faltet@carabos.com>.
+
+                                                                     July 7, 2007                                                            PTDUMP(1)

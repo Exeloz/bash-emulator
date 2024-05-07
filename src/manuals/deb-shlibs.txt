@@ -1,0 +1,43 @@
+deb-shlibs(5)                                                         dpkg suite                                                         deb-shlibs(5)
+
+NAME
+       deb-shlibs - Debian shared library information file
+
+SYNOPSIS
+       debian/shlibs, debian/binary-name.shlibs, DEBIAN/shlibs
+
+DESCRIPTION
+       shlibs files map shared library names and versions (SONAMEs) to dependencies suitable for a package control file.  There is one entry per line.
+       Blank lines are not allowed.  Lines beginning with a # character are considered commentary, and are ignored.  All other lines must have the
+       format:
+
+           [type:] library version dependencies
+
+       The library and version fields are whitespace-delimited, but the dependencies field extends to the end of the line.  The type field is optional
+       and normally not needed.
+
+       The dependencies field has the same syntax as the Depends field in a binary control file, see deb-control(5).
+
+SONAME FORMATS
+       The SONAME formats supported are:
+
+           name.so.version
+
+       and
+
+           name-version.so
+
+       where name is usually prefixed by lib.
+
+EXAMPLES
+       The shlibs file for a typical library package, named libcrunch1, that provides one library whose SONAME is libcrunch.so.1, might read
+
+        libcrunch 1 libcrunch1 (>= 1.2-1)
+
+       The dependencies must mention the most recent version of the package that added new symbols to the library: in the above example, new symbols
+       were added to version 1.2 of libcrunch.  This is not the only reason the dependencies might need to be tightened.
+
+SEE ALSO
+       deb-control(5), dpkg-shlibdeps(1), deb-symbols(5).
+
+1.21.22                                                               2023-05-11                                                         deb-shlibs(5)

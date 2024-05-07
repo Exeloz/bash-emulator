@@ -1,0 +1,36 @@
+PT2TO3(1)                                                       General Commands Manual                                                      PT2TO3(1)
+
+NAME
+       pt2to3 - PyTables 2.x -> 3.x API transition tool.
+
+SYNOPSIS
+       pt2to3 [ OPTIONS ] filename
+
+DESCRIPTION
+       This tool displays to standard out, so it is common to pipe this to another file: $ pt2to3 oldfile.py > newfile.py.
+
+OPTIONS
+       A summary of options is included below.
+
+       -r, --reverse
+              Reverts changes, going from 3.x -> 2.x.
+
+       -p, --no-ignore-previous
+              Ignores previous_api() calls.
+
+       -o OUTPUT
+              Output file to write to..
+
+       -i, --inplace
+              Overwrites the file in-place.
+
+       -h     Print help on usage.
+
+SEE ALSO
+       ptrepack(1),ptdump(1).
+       These utilities are documented fully by PyTables user's manual.
+
+AUTHOR
+       This manual page was written by Antonio Valentino <antonio.valentino@tiscali.it>.
+
+                                                                     May 15, 2013                                                            PT2TO3(1)

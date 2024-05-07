@@ -1,0 +1,58 @@
+pttree(1)                                                       General Commands Manual                                                      pttree(1)
+
+NAME
+       pttree - prints a quick overview of the contents of PyTables HDF5 files.
+
+SYNOPSIS
+       pttree [ OPTIONS ] filename[:nodepath]
+
+DESCRIPTION
+       pttree  is designed to give a quick overview of the contents of a PyTables HDF5 file by printing a depth-indented list of nodes, similar to the
+       output of the Unix `tree` function. It can also display the size, shape and compression states of individual nodes, as well as summary informa‐
+       tion for the whole file.  For a more verbose output (including metadata), see `ptdump`.
+
+OPTIONS
+       A summary of options is included below.
+
+       -L MAX_DEPTH, --max-level MAX_DEPTH
+              maximum branch depth of tree to display (-1 == no limit)
+
+       -S SORT_BY, --sort-by SORT_BY
+              artificially order nodes, can be either "size", "name" or "none"
+
+       --print-size
+              print size of each node/branch
+
+       --no-print-size
+
+       --print-shape
+              print shape of each node
+
+       --no-print-shape
+
+       --print-compression
+              print compression library(level) for each compressed node
+
+       --no-print-compression
+
+       --print-percent
+              print size of each node as a % of the total tree size on disk
+
+       --no-print-percent
+
+       --use-si-units
+              report sizes in SI units (1 MB == 10^6 B)
+
+       --use-binary-units
+              report sizes in binary units (1 MiB == 2^20 B)
+
+       -h     Print help on usage.
+
+SEE ALSO
+       ptdump(1).
+       These utilities are documented fully by PyTables user's manual.
+
+AUTHOR
+       This manual page was written by Antonio Valentino <antonio.valentino@tiscali.it>.
+
+                                                                     May 15, 2013                                                            pttree(1)

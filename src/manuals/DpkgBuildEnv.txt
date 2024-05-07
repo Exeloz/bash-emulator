@@ -1,0 +1,29 @@
+Dpkg::BuildEnv(3perl)                                                libdpkg-perl                                                Dpkg::BuildEnv(3perl)
+
+NAME
+       Dpkg::BuildEnv - track build environment
+
+DESCRIPTION
+       The Dpkg::BuildEnv module is used by dpkg-buildflags to track the build environment variables being used and modified.
+
+FUNCTIONS
+       set($varname, $value)
+           Update the build environment variable $varname with value $value. Record it as being accessed and modified.
+
+       get($varname)
+           Get the build environment variable $varname value. Record it as being accessed.
+
+       has($varname)
+           Return a boolean indicating whether the environment variable exists.  Record it as being accessed.
+
+       @list = list_accessed()
+           Returns a list of all environment variables that have been accessed.
+
+       @list = list_modified()
+           Returns a list of all environment variables that have been modified.
+
+CHANGES
+   Version 0.xx
+       This is a private module.
+
+1.21.22                                                               2023-05-11                                                 Dpkg::BuildEnv(3perl)

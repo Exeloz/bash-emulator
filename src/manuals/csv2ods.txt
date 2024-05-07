@@ -1,0 +1,61 @@
+CSV2ODS(1)                                                           User commands                                                          CSV2ODS(1)
+
+NAME
+       csv2ods - Create OpenDocument spreadsheet from comma separated values
+
+SYNOPSIS
+       csv2ods -i file.csv -o file.ods
+
+DESCRIPTION
+       This program reads a file in CSV format - table of columns delimited by commas, tabs or any other character. It then creates a spreadsheet. If
+       a value looks like a number the cell is formatted as a number as well.
+
+OPTIONS
+       --version
+           Show program's version number and exit
+
+       -h, --help
+           Show help message and exit
+
+       -i INPUT, --input=INPUT
+           File input in csv.
+
+       -o OUTPUT, --output=OUTPUT
+           File output in ods.
+
+       -d DELIMITER, --delimiter=DELIMITER
+           Specifies a one-character string to use as the field separator. It defaults to ",".
+
+       -c ENCODING, --encoding=ENCODING
+           Specifies the encoding the file csv. It defaults to utf-8.
+
+       -t TABLENAME, --table=TABLENAME
+           The table name in the output file.
+
+       -s SKIPINITIALSPACE, --skipinitialspace=SKIPINITIALSPACE
+           Specifies how to interpret whitespace which immediately follows a delimiter. It defaults to False, which means that whitespace immediately
+           following a delimiter is part of the following field.
+
+       -l LINETERMINATOR, --lineterminator=LINETERMINATOR
+           Specifies the character sequence which should terminate rows.
+
+       -q QUOTING, --quoting=QUOTING
+           It can take on any of the following module constants: 0 = QUOTE_MINIMAL means only when required, for example, when a field contains either
+           the quotechar or the delimiter. 1 = QUOTE_ALL means that quotes are always placed around fields. 2 = QUOTE_NONNUMERIC means that quotes are
+           always placed around fields which do not parse as integers or floating point numbers. 3 = QUOTE_NONE means that quotes are never placed
+           around fields. It defaults is QUOTE_MINIMAL.
+
+       -e ESCAPECHAR, --escapechar=ESCAPECHAR
+           Specifies a one-character string used to escape the delimiter when quoting is set to QUOTE_NONE.
+
+       -r QUOTECHAR, --quotechar=QUOTECHAR
+           Specifies a one-character string to use as the quoting character. It defaults to ".
+
+EXAMPLE
+           csv2ods -i /etc/passwd -o accounts.odt -d:
+
+AUTHOR
+       Agustin Henze <agustinhenze at gmail.com>
+           Original author of csv-ods.py
+
+odfpy                                                                 10/19/2022                                                            CSV2ODS(1)

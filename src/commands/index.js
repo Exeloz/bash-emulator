@@ -4,7 +4,7 @@ var commands = {
   cp: require('./cp'),
   history: require('./history'),
   ls: require('./ls'),
-  //man: require('./man'),
+  man: require('./man'),
   mkdir: require('./mkdir'),
   mv: require('./mv'),
   pwd: require('./pwd'),

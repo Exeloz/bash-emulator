@@ -1,0 +1,24 @@
+Dpkg::Control::Tests::Entry(3perl)                                   libdpkg-perl                                   Dpkg::Control::Tests::Entry(3perl)
+
+NAME
+       Dpkg::Control::Tests::Entry - represents a test suite entry
+
+DESCRIPTION
+       This class represents a test suite entry.
+
+METHODS
+       All the methods of Dpkg::Control are available. Those listed below are either new or overridden with a different behavior.
+
+       $entry = Dpkg::Control::Tests::Entry->new()
+           Creates a new object. It does not represent a real control test entry until one has been successfully parsed or built from scratch.
+
+       $entry->parse($fh, $desc)
+           Parse a control test entry from a filehandle. When called multiple times, the parsed fields are accumulated.
+
+           Returns true if parsing was a success.
+
+CHANGES
+   Version 1.00 (dpkg 1.18.8)
+       Mark the module as public.
+
+1.21.22                                                               2023-05-11                                    Dpkg::Control::Tests::Entry(3perl)

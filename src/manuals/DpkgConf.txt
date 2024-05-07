@@ -1,0 +1,78 @@
+Dpkg::Conf(3perl)                                                    libdpkg-perl                                                    Dpkg::Conf(3perl)
+
+NAME
+       Dpkg::Conf - parse dpkg configuration files
+
+DESCRIPTION
+       The Dpkg::Conf object can be used to read options from a configuration file. It can export an array that can then be parsed exactly like @ARGV.
+
+METHODS
+       $conf = Dpkg::Conf->new(%opts)
+           Create a new Dpkg::Conf object. Some options can be set through %opts: if allow_short evaluates to true (it defaults to false), then short
+           options are allowed in the configuration file, they should be prepended with a single hyphen.
+
+       @$conf
+       @options = $conf->get_options()
+           Returns the list of options that can be parsed like @ARGV.
+
+       $conf->load($file)
+           Read options from a file. Return the number of options parsed.
+
+       $conf->load_system_config($file)
+           Read options from a system configuration file.
+
+           Return the number of options parsed.
+
+       $conf->load_user_config($file)
+           Read options from a user configuration file. It will try to use the XDG directory, either $XDG_CONFIG_HOME/dpkg/ or $HOME/.config/dpkg/.
+
+           Return the number of options parsed.
+
+       $conf->load_config($file)
+           Read options from system and user configuration files.
+
+           Return the number of options parsed.
+
+       $conf->parse($fh)
+           Parse options from a file handle. When called multiple times, the parsed options are accumulated.
+
+           Return the number of options parsed.
+
+       $conf->filter(%opts)
+           Filter the list of options, either removing or keeping all those that return true when $opts{remove}->($option) or $opts{keep}->($option)
+           is called.
+
+       $string = $conf->output([$fh])
+           Write the options in the given filehandle (if defined) and return a string representation of the content (that would be) written.
+
+       "$conf"
+           Return a string representation of the content.
+
+       $conf->save($file)
+           Save the options in a file.
+
+CHANGES
+   Version 1.04 (dpkg 1.20.0)
+       Remove croak: For 'format_argv' in $conf->filter().
+
+       Remove methods: $conf->get(), $conf->set().
+
+   Version 1.03 (dpkg 1.18.8)
+       Obsolete option: 'format_argv' in $conf->filter().
+
+       Obsolete methods: $conf->get(), $conf->set().
+
+       New methods: $conf->load_system_config(), $conf->load_system_user(), $conf->load_config().
+
+   Version 1.02 (dpkg 1.18.5)
+       New option: Accept new option 'format_argv' in $conf->filter().
+
+       New methods: $conf->get(), $conf->set().
+
+   Version 1.01 (dpkg 1.15.8)
+       New method: $conf->filter()
+
+   Version 1.00 (dpkg 1.15.6)
+       Mark the module as public.
+
+1.21.22                                                               2023-05-11                                                     Dpkg::Conf(3perl)

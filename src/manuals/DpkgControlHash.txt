@@ -1,0 +1,13 @@
+Dpkg::Control::Hash(3perl)                                           libdpkg-perl                                           Dpkg::Control::Hash(3perl)
+
+NAME
+       Dpkg::Control::Hash - parse and manipulate a stanza of deb822 fields
+
+DESCRIPTION
+       This module is just like Dpkg::Control::HashCore, with vendor-specific field knowledge.
+
+CHANGES
+   Version 1.00 (dpkg 1.15.6)
+       Mark the module as public.
+
+1.21.22                                                               2023-05-11                                            Dpkg::Control::Hash(3perl)

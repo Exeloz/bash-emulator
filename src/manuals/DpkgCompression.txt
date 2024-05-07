@@ -1,0 +1,99 @@
+Dpkg::Compression(3perl)                                             libdpkg-perl                                             Dpkg::Compression(3perl)
+
+NAME
+       Dpkg::Compression - simple database of available compression methods
+
+DESCRIPTION
+       This modules provides a few public functions and a public regex to interact with the set of supported compression methods.
+
+FUNCTIONS
+       @list = compression_get_list()
+           Returns a list of supported compression methods (sorted alphabetically).
+
+       compression_is_supported($comp)
+           Returns a boolean indicating whether the give compression method is known and supported.
+
+       compression_get_property($comp, $property)
+           Returns the requested property of the compression method. Returns undef if either the property or the compression method doesn't exist.
+           Valid properties currently include "file_ext" for the file extension, "default_level" for the default compression level, "comp_prog" for
+           the name of the compression program and "decomp_prog" for the name of the decompression program.
+
+           This function is deprecated, please switch to one of the new specialized getters instead.
+
+       compression_guess_from_filename($filename)
+           Returns the compression method that is likely used on the indicated filename based on its file extension.
+
+       $regex = compression_get_file_extension_regex()
+           Returns a regex that matches a file extension of a file compressed with one of the supported compression methods.
+
+       $ext = compression_get_file_extension($comp)
+           Return the file extension for the compressor $comp.
+
+       $comp = compression_get_default()
+           Return the default compression method. It is "xz" unless "compression_set_default" has been used to change it.
+
+       compression_set_default($comp)
+           Change the default compression method. Errors out if the given compression method is not supported.
+
+       $level = compression_get_default_level()
+           Return the global default compression level used when compressing data if it has been set, otherwise the default level for the default
+           compressor.
+
+           It's "9" for "gzip" and "bzip2", "6" for "xz" and "lzma", unless "compression_set_default_level" has been used to change it.
+
+       compression_set_default_level($level)
+           Change the global default compression level. Passing undef as the level will reset it to the global default compressor specific default,
+           otherwise errors out if the level is not valid (see "compression_is_valid_level").
+
+       $level = compression_get_level($comp)
+           Return the compression level used when compressing data with a specific compressor. The value returned is the specific compression level if
+           it has been set, otherwise the global default compression level if it has been set, falling back to the specific default compression level.
+
+       compression_set_level($comp, $level)
+           Change the compression level for a specific compressor. Passing undef as the level will reset it to the specific default compressor level,
+           otherwise errors out if the level is not valid (see "compression_is_valid_level").
+
+       compression_is_valid_level($level)
+           Returns a boolean indicating whether $level is a valid compression level (it must be either a number between 1 and 9 or "fast" or "best")
+
+       $threads = compression_get_threads()
+           Return the number of threads to use for compression and decompression.
+
+       compression_set_threads($threads)
+           Change the threads to use for compression and decompression. Passing "undef" or 0 requests to use automatic mode, based on the current CPU
+           cores on the system.
+
+       @exec = compression_get_cmdline_compress($comp)
+           Returns a list ready to be passed to "exec", its first element is the program name for compression and the following elements are
+           parameters for the program.
+
+           When executed the program will act as a filter between its standard input and its standard output.
+
+       @exec = compression_get_cmdline_decompress($comp)
+           Returns a list ready to be passed to "exec", its first element is the program name for decompression and the following elements are
+           parameters for the program.
+
+           When executed the program will act as a filter between its standard input and its standard output.
+
+CHANGES
+   Version 2.01 (dpkg 1.21.14)
+       New functions: compression_get_file_extension(), compression_get_level(), compression_set_level(), compression_get_cmdline_compress(),
+       compression_get_cmdline_decompress(), compression_get_threads() and compression_set_threads().
+
+       Deprecated functions: compression_get_property().
+
+   Version 2.00 (dpkg 1.20.0)
+       Hide variables: $default_compression, $default_compression_level and $compression_re_file_ext.
+
+   Version 1.02 (dpkg 1.17.2)
+       New function: compression_get_file_extension_regex()
+
+       Deprecated variables: $default_compression, $default_compression_level and $compression_re_file_ext
+
+   Version 1.01 (dpkg 1.16.1)
+       Default compression level is not global any more, it is per compressor type.
+
+   Version 1.00 (dpkg 1.15.6)
+       Mark the module as public.
+
+1.21.22                                                               2023-05-11                                              Dpkg::Compression(3perl)

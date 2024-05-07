@@ -1,0 +1,124 @@
+deb-changelog(5)                                                      dpkg suite                                                      deb-changelog(5)
+
+NAME
+       deb-changelog - dpkg source packages' changelog file format
+
+SYNOPSIS
+       debian/changelog
+
+DESCRIPTION
+       Changes in the packaged version of a project are explained in the changelog file debian/changelog.  This includes modifications made in the
+       source package compared to the upstream one as well as other changes and updates to the package.
+
+       The format of the debian/changelog allows the package building tools to discover which version of the package is being built and find out other
+       release-specific information.
+
+       That format is a series of entries like this:
+
+        package (version) distributions; metadata
+                 [optional blank line(s), stripped]
+         * change-details
+           more-change-details
+                 [blank line(s), included in dpkg-parsechangelog(1) output]
+         * even-more-change-details
+                 [optional blank line(s), stripped]
+         -- maintainer-name <email-address>  date
+
+       package and version are the source package name and version number.  version is delimited by parenthesis U+00028 ‘(’ and U+0029 ‘)’.
+
+       distributions lists one or more space-separated distributions where this version should be installed when it is uploaded; it is copied to the
+       Distribution field in the .changes file.  distributions must be terminated by a semicolon (U+003B ‘;’).
+
+       metadata lists zero or more comma-separated keyword=value items.  Each keyword can contain only minus and case insensitive alphanumeric
+       characters, as they need to be mapped to deb822(5) field names.  The only keywords currently supported by dpkg are urgency and binary-only.
+       urgency's value is used for the Urgency field in the .changes file for the upload.  binary-only with a yes value, is used to denote that this
+       changelog entry is for a binary-only non-maintainer upload (an automatic binary rebuild with the only change being the changelog entry).
+
+       The change details may in fact be any series of lines starting with at least two spaces (U+0020 SPACE), but conventionally each change starts
+       with an asterisk and a separating space and continuation lines are indented so as to bring them in line with the start of the text above.
+       Blank lines may be used here to separate groups of changes, if desired.
+
+       If this upload resolves bugs recorded in the distribution bug tracking system, they may be automatically closed on the inclusion of this
+       package into the distribution archive by including the string:
+
+           Closes: #nnnnn
+
+       in the change details, where #nnnnn is the bug number.  The exact Perl regular expression is:
+
+           /closes:\s*(?:bug)?\#?\s?\d+(?:,\s*(?:bug)?\#?\s?\d+)*/i
+
+       That is, the string should consist of the word closes: followed by a comma-separated list of bug numbers.  Bug numbers may be preceded by the
+       word bug and/or a # sign, as in "Closes: 42, bug#43, #44, bug 45".  The words closes: and bug are not case sensitive.  The list of bug numbers
+       may span multiple lines.
+
+       This information is conveyed via the Closes field in the .changes file.  Where, depending on the archive maintenance software, all the bug
+       numbers listed might get automatically closed.
+
+       The maintainer name and email address used in the changelog should be the details of the person who prepared this release of the package.  They
+       are not necessarily those of the uploader or usual package maintainer.  The information here will be copied to the Changed-By field in the
+       .changes file, and then later might be used to send an acknowledgment when the upload has been installed in the distribution archive.
+
+       The date has the following format (compatible and with the same semantics of RFC2822 and RFC5322, or what «date -R» generates):
+
+           day-of-week, dd month yyyy hh:mm:ss +zzzz
+
+       where:
+
+       day-of-week
+           Is one of: Mon, Tue, Wed, Thu, Fri, Sat, Sun.
+
+       dd  Is a one- or two-digit day of the month (01-31), where the leading zero is optional, but conventionally does not get omitted.
+
+       month
+           Is one of: Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec.
+
+       yyyy
+           Is the four-digit year (e.g. 2010).
+
+       hh  Is the two-digit hour (00-23).
+
+       mm  Is the two-digit minutes (00-59).
+
+       ss  Is the two-digit seconds (00-60).
+
+       [+-]zzzz
+           Is the time zone offset from Coordinated Universal Time (UTC).  ‘+’ indicates that the time is ahead of (i.e., east of) UTC and ‘-’
+           indicates that the time is behind (i.e., west of) UTC.  The first two digits indicate the hour difference from UTC and the last two digits
+           indicate the number of additional minutes difference from UTC.  The last two digits must be in the range 00-59.
+
+       The first “title” line with the package name must start at the left hand margin.  The “trailer” line with the maintainer and date details must
+       be preceded by exactly one space (U+0020 SPACE).  The maintainer details and the date must be separated by exactly two spaces (U+0020 SPACE).
+       Each part of the date can be separated by one or more spaces (U+0020 SPACE), except after the comma where it can be separated by zero or more
+       spaces (U+0020 SPACE).
+
+       Any line that consists entirely (i.e., no leading whitespace) of # or /* */ style comments or RCS keywords.
+
+       Vim modelines or Emacs local variables, and ancient changelog entries with other formats at the end of the file should be accepted and
+       preserved on output, but their contents might be otherwise ignored and parsing stopped at that point.
+
+       The entire changelog must be encoded in UTF-8.
+
+FILES
+       debian/changelog
+
+EXAMPLES
+        dpkg (1.17.18) unstable; urgency=low
+
+         [ Guillem Jover ]
+         * Handle empty minimum versions when initializing dependency versions,
+           as the code is mapping the minimum version 0 to '' to avoid outputting
+           useless versions. Regression introduced in dpkg 1.17.17. Closes: #764929
+
+         [ Updated programs translations ]
+         * Catalan (Guillem Jover).
+
+         [ Updated dselect translations ]
+         * Catalan (Guillem Jover).
+         * German (Sven Joachim).
+
+         -- Guillem Jover <guillem@debian.org>  Sun, 12 Oct 2014 15:47:44 +0200
+
+SEE ALSO
+       deb822(5), deb-version(7), deb-changes(5), dpkg-parsechangelog(1).
+
+1.21.22                                                               2023-05-11                                                      deb-changelog(5)

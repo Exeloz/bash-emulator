@@ -1,0 +1,37 @@
+deb-postinst(5)                                                       dpkg suite                                                       deb-postinst(5)
+
+NAME
+       deb-postinst - package post-installation maintainer script
+
+SYNOPSIS
+       DEBIAN/postinst
+
+DESCRIPTION
+       A package can perform several post-installation actions via maintainer scripts, by including an executable postinst file in its control archive
+       (i.e. DEBIAN/postinst during package creation).
+
+       The script can be called in the following ways:
+
+       postinst configure old-version
+           After the package was installed.
+
+       postinst triggered "trigger-name..."
+           After the package was triggered.  The list of space-separated trigger-names is passed as the second argument.
+
+       old-postinst abort-upgrade new-version
+           If prerm fails during upgrade or fails on failed-upgrade.
+
+       old-postinst abort-remove
+           If prerm fails during remove.
+
+       postinst abort-deconfigure in-favour new-package new-version
+              [ removing old-package old-version ]
+           If prerm fails during deconfigure in-favour of a package.
+
+       postinst abort-remove in-favour new-package new-version
+           If prerm fails during remove in-favour for replacement due to conflict.
+
+SEE ALSO
+       dpkg(1).
+
+1.21.22                                                               2023-05-11                                                       deb-postinst(5)

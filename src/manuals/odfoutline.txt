@@ -1,0 +1,21 @@
+ODFOUTLINE(1)                                                        User commands                                                       ODFOUTLINE(1)
+
+NAME
+       odfoutline - Show outline of OpenDocument
+
+SYNOPSIS
+       odfoutline path
+
+DESCRIPTION
+       odfoutline is a simple program that will show the headings in the file and the level the heading is.
+
+       “Path” is assumed to be an OpenDocument file of text, spreadsheet or presentation type.
+
+EXAMPLE
+           odfoutline odf-file
+
+AUTHOR
+       Søren Roug
+           Original author
+
+odfpy                                                                 10/19/2022                                                         ODFOUTLINE(1)

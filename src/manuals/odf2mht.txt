@@ -1,0 +1,35 @@
+ODF2MHT(1)                                                           User commands                                                          ODF2MHT(1)
+
+NAME
+       odf2mht - Convert ODF to HTML archive
+
+SYNOPSIS
+       odf2mht path
+
+DESCRIPTION
+       Odf2mht is a program that will create a MIME-encapsulated web archive (.mht) format where images are preserved. The file can be read by
+       Internet Explorer, MS-Word and many email programs such as MS-Outlook. It will write the web archive to stdout.
+
+       “Path” is assumed to be an OpenDocument file of text, spreadsheet or presentation type.
+
+REFERENCES
+           HTTRACK (http://www.httrack.com/) can create such archives with the -%M option.
+           http://en.wikipedia.org/wiki/MHTML
+           http://www.dsv.su.se/~jpalme/ietf/mhtml.html
+           http://users.otenet.gr/~geosp/kmhtconvert/
+           http://www.faqs.org/rfcs/rfc2557.html
+
+EXAMPLE
+           odf2mht example.odt >example.mht
+
+BUGS
+       IE6 seems to have problems with large MHT files.
+
+SEE ALSO
+       odftools(1), odf2war(1), mailodf(1)
+
+AUTHOR
+       Søren Roug
+           Original author
+
+odfpy                                                                 10/19/2022                                                            ODF2MHT(1)

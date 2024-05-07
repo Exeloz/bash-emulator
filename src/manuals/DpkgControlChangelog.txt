@@ -1,0 +1,17 @@
+Dpkg::Control::Changelog(3perl)                                      libdpkg-perl                                      Dpkg::Control::Changelog(3perl)
+
+NAME
+       Dpkg::Control::Changelog - represent info fields output by dpkg-parsechangelog
+
+DESCRIPTION
+       This class derives directly from Dpkg::Control with the type CTRL_CHANGELOG.
+
+METHODS
+       $c = Dpkg::Control::Changelog->new()
+           Create a new empty set of changelog related fields.
+
+CHANGES
+   Version 1.00 (dpkg 1.15.6)
+       Mark the module as public.
+
+1.21.22                                                               2023-05-11                                       Dpkg::Control::Changelog(3perl)

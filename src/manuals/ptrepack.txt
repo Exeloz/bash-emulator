@@ -1,0 +1,68 @@
+PTREPACK(1)                                                     General Commands Manual                                                    PTREPACK(1)
+
+NAME
+       ptrepack - Copy any PyTables Leaf, Group or complete subtree into another file.
+
+SYNOPSIS
+       ptrepack -h -v -o -R start,stop,step --non-recursive --dest-title=title --dont-copyuser-attrs --overwrite-nodes --complevel=(0-9) --complib=lib
+       --shuffle=(0|1) --fletcher32=(0|1) --keep-source-filters --upgrade-flavors --dont-regenerate-old-indexes sourcefile:sourcegroup  destfile:dest‐
+       group
+
+DESCRIPTION
+       Copy any Leaf, Group or complete subtree from a PyTables file into another file.
+
+OPTIONS
+       A summary of options is included below.
+
+       -h     Prints a help text.
+
+       -v     Show more information.
+
+       -o     Overwrite destination file.
+
+       -R RANGE
+              Select a RANGE of rows in the form start,stop,step during the copy of all the leaves.
+
+       --non-recursive
+              Do not do a recursive copy. Default is to do it.
+
+       --dest-title=title
+              Title for the new file (if not specified, the source is copied).
+
+       --dont-copy-userattrs
+              Do not copy the user attrs (default is to do it).
+
+       --overwrite-nodes
+              Overwrite destination nodes if they exist. Default is not to overwrite them.
+
+       --complevel=(0-9)
+              Set a compression level (0 for no compression, which is the default).
+
+       --complib=lib
+              Set the compression library to be used during the copy. lib can be set to "zlib", "lzo", "ucl" or "bzip2". Defaults to "zlib".
+
+       --shuffle=(0|1)
+              Activate or not the shuffling filter (default is active if complevel>0).
+
+       --fletcher32=(0|1)
+              Whether to activate or not the fletcher32 filter (not active by default).
+
+       --keep-source-filters
+              Use  the original filters in source files. The default is not doing that if any of --complevel, --complib, --shuffle or --fletcher32 op‐
+              tion is specified.
+
+       --upgrade-flavors
+              When repacking PyTables 1.x files, the flavor of leaves will be unset. With this, such a leaves will be serialized as objects  with  the
+              internal flavor ("numpy" for 2.x series).
+
+       --dont-regenerate-old-indexes
+              Disable regenerating old indexes. The default is to regenerate old indexes as they are found.
+
+SEE ALSO
+       ptdump(1).
+       These utilities are documented fully by PyTables user's manual.
+
+AUTHOR
+       This manual page was written by Francesc Altet <faltet@carabos.com>.
+
+                                                                     July 7, 2007                                                          PTREPACK(1)

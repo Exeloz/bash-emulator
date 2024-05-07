@@ -1,0 +1,28 @@
+ODF2XHTML(1)                                                         User commands                                                        ODF2XHTML(1)
+
+NAME
+       odf2xhtml - Convert ODF to HTML
+
+SYNOPSIS
+       odf2xhtml [-e] path
+
+DESCRIPTION
+       odf2xhtml is a program that will create a webpage (.html) from the input file and will write the webpage to stdout.
+
+       "Path" is assumed to be an OpenDocument file of text, spreadsheet or presentation type.
+
+OPTIONS
+       -p, --plain
+           The -p flag will generate HTML without CSS.
+
+EXAMPLE
+           odf2xhtml odf-file
+
+SEE ALSO
+       odf2mht(1)
+
+AUTHOR
+       Søren Roug
+           Original author
+
+odfpy                                                                 10/19/2022                                                          ODF2XHTML(1)

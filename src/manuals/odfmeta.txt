@@ -1,0 +1,65 @@
+ODFMETA(1)                                                           User commands                                                          ODFMETA(1)
+
+NAME
+       odfmeta - List or change the metadata of an ODF file
+
+SYNOPSIS
+       odfmeta [-l] [-v] [-V] [-c] [-d] [-x metafield...] [-X metafield...] [-a metafield...] [-A metafield...] [-I metafield...] [-o path] path
+
+DESCRIPTION
+       odfmeta is a program that will list or change the metadata in an OpenDocument file. This is useful for version control systems. You can change
+       title, keywords, description etc.
+
+       “Path” is assumed to be an OpenDocument file of text, spreadsheet or presentation type.
+
+OPTIONS
+       -l
+           List (extract) all known metadata fields.
+
+       -v or -V
+           Print the version number of the ODF document format. If you use -V it will print "version:" before the number for compatibility with -X.
+           The version number can't be modified.
+
+       -c
+           Make field values continuous by normalizing white space. Might be convenient when postprocessing with standard (line oriented) text
+           utilities.
+
+       -d
+           Update the modification date to the current date and time.
+
+       -x metafield
+           Extract the contents of this metafield from the file. Known field names are creation-date, creator, date, description, editing-cycles,
+           editing-duration, generator, initial-creator, keyword, language, print-date, printed-by, subject, title, user-defined. All other names are
+           assumed to be user defined.
+
+       -X metafield
+           Same as -x, but also preserves/includes the field name.
+
+       -a metafield
+           Append a custom metafield to the metadata; but only if a similar field does not exist yet.
+
+       -A metafield
+           Append a custom metafield to the metadata in any case.
+
+       -I metafield
+           Append a custom metafield to the metadata and remove any existing similar field.
+
+       -o path
+           Filename to write modified ODT file to. If no -o option is provided, the ODT file will be written to stdout.
+
+EXAMPLES
+           odfmeta -l odf-file.odt
+           odfmeta -I "title:The Little Engine That Could" -A subject:I-think-I-can -o newfile.odt source.odt
+
+SEE ALSO
+       formail(1), id3tag(1)
+
+BUGS
+       All known versions of OpenOffice.org keep only four <meta:user-defined> elements. If you add more than those, you'll loose them next time you
+       save with OpenOffice.org. KOffice keeps only one <meta:keyword> element.
+
+AUTHOR
+       Søren Roug
+           Original author
+
+odfpy                                                                 10/19/2022                                                            ODFMETA(1)

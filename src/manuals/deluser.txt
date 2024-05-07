@@ -1,0 +1,151 @@
+DELUSER(8)                                                      System Manager's Manual                                                     DELUSER(8)
+
+NAME
+       deluser, delgroup - remove a user or group from the system
+
+SYNOPSIS
+       deluser [--backup] [--backup-suffix str] [--backup-to dir] [--conf file] [--debug] [--remove-all-files] [--remove-home] [--quiet] [--verbose]
+               user
+
+       deluser [--system] [--backup] [--backup-suffix str] [--backup-to dir] [--conf file] [--debug] [--remove-all-files] [--remove-home] [--quiet]
+               [--verbose] user
+
+       deluser --group [--conf file] [--debug] [--only-if-empty] [--quiet] [--verbose] group
+       delgroup [--system] [--conf file] [--debug] [--only-if-empty] [--quiet] [--verbose] group
+
+       deluser [--conf file] [--debug] [--quiet] [--verbose] user group
+
+       deluser --help
+
+       deluser --version
+
+DESCRIPTION
+       deluser  and  delgroup  remove  users  and  groups  from  the  system  according  to  command  line  options  and  configuration information in
+       /etc/deluser.conf and /etc/adduser.conf.
+
+       They are friendlier front ends to the userdel and groupdel programs, removing the home directory as option or even  all  files  on  the  system
+       owned by the user to be removed, running a custom script, and other features.
+
+       For a full list and explanations of all options, see the OPTIONS section.
+
+       deluser and delgroup can be run in one of three modes:
+
+   Remove a user
+       If called with one non-option argument and without the --group option, deluser will remove a non-system user.
+
+       By  default,  deluser  will  remove  the user without removing the home directory, the mail spool or any other files on the system owned by the
+       user.  Removing the home directory and mail spool can be achieved using the --remove-home option.
+
+       The  --remove-all-files option removes all files on the system owned by the user.  Note that if you activate both  options  --remove-home  will
+       have no additional effect because all files including the home directory and mail spool are already covered by the --remove-all-files option.
+
+       If  you  want  to backup all files before deleting them you can activate the --backup option which will create a file username.tar(.gz|.bz2) in
+       the directory specified by the --backup-to option.
+
+       By default, the backup archive is compressed with gzip(1).  To change this, the --backup-suffix option can be set to any  suffix  supported  by
+       tar --auto-compress (e.g. .gz, .bz2, .xz).
+
+       deluser will refuse to remove the root account.
+
+       If  the --system option is given on the command line, the delete operation is actually executed only if the user is a system user.  This avoids
+       accidentally deleting non-system users.  Additionally, if the user does not exist, no error  value  is  returned.   Debian  package  maintainer
+       scripts may use this flag to remove system users or groups while ignoring the case where the removal already occurred.
+
+   Remove a group
+       If deluser is called with the --group  option, or delgroup is called, a group will be removed.  The primary group of an existing user cannot be
+       removed.  If the option --only-if-empty is given, the group won't be removed if it has any members left.
+
+       The --system option adds the same functionality as for users, respectively.
+
+   Remove a user from a specific group
+       If called with two non-option arguments, deluser will remove a user from a specific group.
+
+OPTIONS
+       Different modes of deluser allow different options.  If no valid modes are listed for a option, it is accepted in all modes.
+
+       Short versions for certain options may exist for historical reasons.  They are going to stay supported, but are removed from the documentation.
+       Users are advised to migrate to the long version of options.
+
+       --backup
+              Backup  all  files  contained  in the userhome and the mailspool file to a file named username.tar.bz2 or username.tar.gz.  Valid Modes:
+              deluser, deluser --system,
+
+       --backup-suffix str
+              Select compression algorithm for a home directory backup.  Can be set to any suffix recognized by tar --auto-compress.  Defaults to .gz.
+              Valid Modes: deluser, deluser --system,
+
+       --backup-to dir
+              Place the backup files not in the current directory but in dir.  This implicitly sets --backup also.  (defaulting to the current working
+              directory).  Valid Modes: deluser, deluser --system,
+
+       --conf file
+              Use file instead of the default files /etc/deluser.conf and /etc/adduser.conf.  Multiple --conf options may be given.
+
+       --debug
+              Activate debugging code.
+
+       --group
+              Remove a group.  This is the default action if the program is invoked as delgroup.  Valid Mode: deluser.
+
+       --help Display brief instructions.
+
+       --only-if-empty
+              Only remove if no members are left.  Valid Modes: deluser --group, delgroup,
+
+       --quiet
+              Suppress informational messages, only show warnings and errors.
+
+       --remove-all-files
+              Remove all files from the system owned by this user.  Note: --remove-home does not have an effect any more.  If --backup  is  specified,
+              the files are deleted after having performed the backup.  Valid Modes: deluser, deluser --system,
+
+       --remove-home
+              Remove  the  home  directory  of the user and its mailspool.  If --backup is specified, the files are deleted after having performed the
+              backup.  Valid Modes: deluser, deluser --system,
+
+       --system
+              Only delete if user/group is a system user/group.  If the user does not exist, no  error  value  is  returned.   Valid  Modes:  deluser,
+              deluser --system,
+
+       --verbose
+              Be more verbose.
+
+       --version
+              Display version and copyright information.
+
+RETURN VALUE
+       0      Success: The action was successfully executed.
+
+       1      The user to delete was not a system account.  No action was performed.
+
+       2      There is no such user.  No action was performed.
+
+       3      There is no such group.  No action was performed.
+
+       4      Internal error.  No action was performed.
+
+       5      The group to delete is not empty.  No action was performed.
+
+       6      The user does not belong to the specified group.  No action was performed.
+
+       7      You cannot remove a user from its primary group.  No action was performed.
+
+       8      The suggested package 'perl' is not installed.  This package is required to perform the requested actions.  No action was performed.
+
+       9      The root account cannot be deleted. No action was performed.
+
+SECURITY
+       deluser needs root privileges and offers, via the --conf command line option to use different configuration files.  Do not use sudo(8) or simi‐
+       lar tools to give partial privileges to deluser with restricted command line parameters.  This is easy to circumvent and might allow  users  to
+       create arbitrary accounts.  If you want this, consider writing your own wrapper script and giving privileges to execute that script.
+
+FILES
+       /etc/deluser.conf Default configuration file for deluser(8) and delgroup(8)
+
+       /usr/local/sbin/deluser.local
+              Optional custom add-ons, see deluser.local(8)
+
+SEE ALSO
+       adduser(8), deluser.conf(5), deluser.local.conf(8), groupdel(8), userdel(8)
+
+Debian GNU/Linux                                                                                                                            DELUSER(8)

@@ -1,0 +1,31 @@
+deb-conffiles(5)                                                      dpkg suite                                                      deb-conffiles(5)
+
+NAME
+       deb-conffiles - package conffiles
+
+SYNOPSIS
+       DEBIAN/conffiles
+
+DESCRIPTION
+       A package declares its list of conffiles by including a conffiles file in its control archive (i.e. DEBIAN/conffiles during package creation).
+
+       This file contains a list of files, one per line, with an optional leading flag separated by whitespace.  The conffiles must be listed as
+       absolute pathnames.  Trailing whitespace will be trimmed, but empty or whitespace-only lines are not accepted.
+
+       Files without a flag should exist in the binary package, otherwise dpkg(1) will ignore them.
+
+       There is currently only one flag supported, remove-on-upgrade, to mark that a conffile needs to be removed on the next upgrade (since dpkg
+       1.20.6).  These files must not exist in the binary package, as both dpkg(1) and dpkg-deb(1) will not accept building nor processing such binary
+       packages.
+
+EXAMPLE
+        /etc/alternatives/README
+        /etc/cron.daily/dpkg
+        /etc/dpkg/dpkg.cfg
+        /etc/logrotate.d/dpkg
+        remove-on-upgrade /etc/some-old-file.conf
+
+SEE ALSO
+       dpkg-deb(1), dpkg(1).
+
+1.21.22                                                               2023-05-11                                                      deb-conffiles(5)

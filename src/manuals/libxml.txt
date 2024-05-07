@@ -1,0 +1,36 @@
+libxml(3)                                                      Library Functions Manual                                                      libxml(3)
+
+NAME
+       libxml - library used to parse XML files
+
+DESCRIPTION
+       The libxml library is used to parse XML files.  Its internal document representation is as close as possible to the DOM (Document Object Model)
+       interface, an API for accessing XML or HTML structured documents.
+
+       The libxml library also has a SAX-like interface, which is designed to be compatible with expat(1).  NOTE: SAX, the Simple API for  XML,  is  a
+       standard  interface  for event-based XML parsing, developed collaboratively by the members of the XML-DEV mailing list, currently hosted by OA‐
+       SIS.  The expat library is a XML 1.0 parser written in C, which aims to be fully conforming.  It is currently not a validating XML processor.
+
+       The libxml library now includes a nearly complete XPath implementation.  The XPath (XML Path Language) is a language for addressing parts of an
+       XML document, designed to be used by both XSLT and XPointer.
+
+       The libxml library exports Push and Pull type parser interfaces for both XML and html.
+
+FILES
+       /depot/lib/libxml_2.0.0/libxml.a
+                             static library
+
+       /depot/lib/libxml_2.0.0/libxml.so
+                             shared library
+
+       /depot/package/libxml_2.0.0/bin/xmllint
+                             binary application for parsing XML files
+
+AUTHORS
+       Daniel Veillard (daniel@veillard.com).  Red Hat Inc.  Manual page by Ziying Sherwin (sherwin@nlm.nih.gov), Lister Hill National Center for Bio‐
+       medical Communications, U.S. National Library of Medicine.
+
+SEE ALSO
+       xmllint(1), libxslt(3), libexslt(3), xsltproc(1)
+
+                                                                     12 April 2000                                                           libxml(3)

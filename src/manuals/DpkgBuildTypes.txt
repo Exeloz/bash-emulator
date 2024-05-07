@@ -1,0 +1,68 @@
+Dpkg::BuildTypes(3perl)                                              libdpkg-perl                                              Dpkg::BuildTypes(3perl)
+
+NAME
+       Dpkg::BuildTypes - track build types
+
+DESCRIPTION
+       The Dpkg::BuildTypes module is used by various tools to track and decide what artifacts need to be built.
+
+       The build types are bit constants that are exported by default. Multiple types can be ORed.
+
+CONSTANTS
+       BUILD_DEFAULT
+           This build is the default.
+
+       BUILD_SOURCE
+           This build includes source artifacts.
+
+       BUILD_ARCH_DEP
+           This build includes architecture dependent binary artifacts.
+
+       BUILD_ARCH_INDEP
+           This build includes architecture independent binary artifacts.
+
+       BUILD_BINARY
+           This build includes binary artifacts.
+
+       BUILD_FULL
+           This build includes source and binary artifacts.
+
+FUNCTIONS
+       build_has_any($bits)
+           Return a boolean indicating whether the current build type has any of the specified $bits.
+
+       build_has_all($bits)
+           Return a boolean indicating whether the current build type has all the specified $bits.
+
+       build_has_none($bits)
+           Return a boolean indicating whether the current build type has none of the specified $bits.
+
+       build_is($bits)
+           Return a boolean indicating whether the current build type is the specified set of $bits.
+
+       set_build_type($build_type, $build_option, %opts)
+           Set the current build type to $build_type, which was specified via the $build_option command-line option.
+
+           The function will check and abort on incompatible build type assignments, this behavior can be disabled by using the boolean option
+           "nocheck".
+
+       set_build_type_from_options($build_types, $build_option, %opts)
+           Set the current build type from a list of comma-separated build type components.
+
+           The function will check and abort on incompatible build type assignments, this behavior can be disabled by using the boolean option
+           "nocheck".
+
+       set_build_type_from_targets($build_targets, $build_option, %opts)
+           Set the current build type from a list of comma-separated build target components.
+
+           The function will check and abort on incompatible build type assignments, this behavior can be disabled by using the boolean option
+           "nocheck".
+
+       get_build_options_from_type()
+           Get the current build type as a set of comma-separated string options.
+
+CHANGES
+   Version 0.xx
+       This is a private module.
+
+1.21.22                                                               2023-05-11                                               Dpkg::BuildTypes(3perl)

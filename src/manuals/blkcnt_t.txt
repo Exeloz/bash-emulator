@@ -1,0 +1,26 @@
+blkcnt_t(3type)                                                                                                                        blkcnt_t(3type)
+
+NAME
+       blkcnt_t - file block counts
+
+LIBRARY
+       Standard C library (libc)
+
+SYNOPSIS
+       #include <sys/types.h>
+
+       typedef /* ... */ blkcnt_t;
+
+DESCRIPTION
+       Used for file block counts.  It is a signed integer type.
+
+STANDARDS
+       POSIX.1-2001 and later.
+
+NOTES
+       The following header also provides this type: <sys/stat.h>.
+
+SEE ALSO
+       stat(3type)
+
+Linux man-pages 6.03                                                  2022-10-30                                                       blkcnt_t(3type)

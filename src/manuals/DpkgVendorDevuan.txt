@@ -1,0 +1,13 @@
+Dpkg::Vendor::Devuan(3perl)                                          libdpkg-perl                                          Dpkg::Vendor::Devuan(3perl)
+
+NAME
+       Dpkg::Vendor::Devuan - Devuan vendor class
+
+DESCRIPTION
+       This vendor class customizes the behaviour of dpkg scripts for Devuan specific behavior and policies.
+
+CHANGES
+   Version 0.xx
+       This is a private module.
+
+1.21.22                                                               2023-05-11                                           Dpkg::Vendor::Devuan(3perl)

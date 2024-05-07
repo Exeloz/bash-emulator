@@ -1,0 +1,121 @@
+Dpkg::Deps::Simple(3perl)                                            libdpkg-perl                                            Dpkg::Deps::Simple(3perl)
+
+NAME
+       Dpkg::Deps::Simple - represents a single dependency statement
+
+DESCRIPTION
+       This class represents a single dependency statement.  It has several interesting properties:
+
+       package
+           The package name (can be undef if the dependency has not been initialized or if the simplification of the dependency lead to its removal).
+
+       relation
+           The relational operator: "=", "<<", "<=", ">=" or ">>". It can be undefined if the dependency had no version restriction. In that case the
+           following field is also undefined.
+
+       version
+           The version.
+
+       arches
+           The list of architectures where this dependency is applicable. It is undefined when there's no restriction, otherwise it is an array ref.
+           It can contain an exclusion list, in that case each architecture is prefixed with an exclamation mark.
+
+       archqual
+           The arch qualifier of the dependency (can be undef if there is none).  In the dependency "python:any (>= 2.6)", the arch qualifier is
+           "any".
+
+       restrictions
+           The restrictions formula for this dependency. It is undefined when there is no restriction formula. Otherwise it is an array ref.
+
+METHODS
+       $dep = Dpkg::Deps::Simple->new([$dep[, %opts]]);
+           Creates a new object. Some options can be set through %opts:
+
+           host_arch
+               Sets the host architecture.
+
+           build_arch
+               Sets the build architecture.
+
+           build_dep
+               Specifies whether the parser should consider it a build dependency.  Defaults to 0.
+
+           tests_dep
+               Specifies whether the parser should consider it a tests dependency.  Defaults to 0.
+
+       $dep->reset()
+           Clears any dependency information stored in $dep so that $dep->is_empty() returns true.
+
+       $dep->parse_string($dep_string)
+           Parses the dependency string and modifies internal properties to match the parsed dependency.
+
+       $dep->parse($fh, $desc)
+           Parse a dependency line from a filehandle.
+
+       $dep->load($filename)
+           Parse a dependency line from $filename.
+
+       $dep->output([$fh])
+       "$dep"
+           Returns a string representing the dependency. If $fh is set, it prints the string to the filehandle.
+
+       $dep->save($filename)
+           Save the dependency into the given $filename.
+
+       $dep->implies($other_dep)
+           Returns 1 when $dep implies $other_dep. Returns 0 when $dep implies NOT($other_dep). Returns undef when there is no implication. $dep and
+           $other_dep do not need to be of the same type.
+
+       $dep->get_deps()
+           Returns a list of sub-dependencies, which for this object it means it returns itself.
+
+       $dep->sort()
+           This method is a no-op for this object.
+
+       $dep->arch_is_concerned($arch)
+           Returns true if the dependency applies to the indicated architecture.
+
+       $dep->reduce_arch($arch)
+           Simplifies the dependency to contain only information relevant to the given architecture. This object can be left empty after this
+           operation. This trims off the architecture restriction list of these objects.
+
+       $dep->has_arch_restriction()
+           Returns the package name if the dependency applies only to a subset of architectures.
+
+       $dep->profile_is_concerned()
+           Returns true if the dependency applies to the indicated profile.
+
+       $dep->reduce_profiles()
+           Simplifies the dependency to contain only information relevant to the given profile. This object can be left empty after this operation.
+           This trims off the profile restriction list of this object.
+
+       $dep->get_evaluation($facts)
+           Evaluates the dependency given a list of installed packages and a list of virtual packages provided. These lists are part of the
+           Dpkg::Deps::KnownFacts object given as parameters.
+
+           Returns 1 when it's true, 0 when it's false, undef when some information is lacking to conclude.
+
+       $dep->simplify_deps($facts, @assumed_deps)
+           Simplifies the dependency as much as possible given the list of facts (see class Dpkg::Deps::KnownFacts) and a list of other dependencies
+           that are known to be true.
+
+       $dep->is_empty()
+           Returns true if the dependency is empty and doesn't contain any useful information. This is true when the object has not yet been
+           initialized.
+
+       $dep->merge_union($other_dep)
+           Returns true if $dep could be modified to represent the union of both dependencies. Otherwise returns false.
+
+CHANGES
+   Version 1.02 (dpkg 1.17.10)
+       New methods: Add $dep->profile_is_concerned() and $dep->reduce_profiles().
+
+   Version 1.01 (dpkg 1.16.1)
+       New method: Add $dep->reset().
+
+       New property: recognizes the arch qualifier "any" and stores it in the "archqual" property when present.
+
+   Version 1.00 (dpkg 1.15.6)
+       Mark the module as public.
+
+1.21.22                                                               2023-05-11                                             Dpkg::Deps::Simple(3perl)

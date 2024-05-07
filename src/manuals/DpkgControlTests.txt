@@ -1,0 +1,22 @@
+Dpkg::Control::Tests(3perl)                                          libdpkg-perl                                          Dpkg::Control::Tests(3perl)
+
+NAME
+       Dpkg::Control::Tests - parse files like debian/tests/control
+
+DESCRIPTION
+       It provides a class to access data of files that follow the same syntax as debian/tests/control.
+
+METHODS
+       All the methods of Dpkg::Index are available. Those listed below are either new or overridden with a different behavior.
+
+       $c = Dpkg::Control::Tests->new(%opts)
+           Create a new Dpkg::Control::Tests object, which inherits from Dpkg::Index.
+
+       $item = $tests->new_item()
+           Creates a new item.
+
+CHANGES
+   Version 1.00 (dpkg 1.18.8)
+       Mark the module as public.
+
+1.21.22                                                               2023-05-11                                           Dpkg::Control::Tests(3perl)

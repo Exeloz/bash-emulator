@@ -1,0 +1,32 @@
+MAILODF(1)                                                           User commands                                                          MAILODF(1)
+
+NAME
+       mailodf - Email ODF file as HTML archive
+
+SYNOPSIS
+       mailodf [-f from] [-s subject] inputfile recipients...
+
+DESCRIPTION
+       mailodf is a program that will create a MIME-encapsulated web archive and then sends it as an email. Most email programs that understand HTML
+       understands this format.
+
+       “Inputfile” is assumed to be an OpenDocument file of text, spreadsheet or presentation type.
+
+REFERENCES
+           HTTRACK (http://www.httrack.com/) can create such archives with the -%M option.
+           http://en.wikipedia.org/wiki/MHTML
+           http://www.dsv.su.se/~jpalme/ietf/mhtml.html
+           http://users.otenet.gr/~geosp/kmhtconvert/
+           http://www.faqs.org/rfcs/rfc2557.html
+
+EXAMPLE
+           mailodf -f lars.oppermann@sun.com -s "F.Y.I" odf-file
+
+SEE ALSO
+       odf2mht
+
+AUTHOR
+       Søren Roug
+           Original author
+
+odfpy                                                                 10/19/2022                                                            MAILODF(1)

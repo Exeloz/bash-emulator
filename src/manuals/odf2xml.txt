@@ -1,0 +1,36 @@
+ODF2XML(1)                                                           User commands                                                          ODF2XML(1)
+
+NAME
+       odf2xml - Create OpenDocument XML file from OD? package
+
+SYNOPSIS
+       odf2xml [-e] [-o outputfile] [inputfile]
+
+DESCRIPTION
+       OpenDocument can be a complete office document in a single XML file. The script will take an OpenDocument and create an XML file This is mainly
+       useful XML processors such as XSL transformation.
+
+       "Inputfile" is assumed to be an OpenDocument file. If there is no inputfile, the program will read from standard input.
+
+OPTIONS
+       -e
+           Normally, images that are stored in the archive in the Pictures folder are ignored. Using the -e flag will embed the images in the XML as
+           base64.
+
+       -o outputfile
+           If output file is not specified output will be to standard out.
+
+EXAMPLE
+           odf2xml -o file.xml  testdocument.odt
+
+SEE ALSO
+       xml2odf(1)
+
+BUGS
+       Doesn't handle external data -- images and such.
+
+AUTHOR
+       Søren Roug
+           Original author
+
+odfpy                                                                 10/19/2022                                                            ODF2XML(1)

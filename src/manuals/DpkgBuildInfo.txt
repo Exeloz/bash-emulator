@@ -1,0 +1,17 @@
+Dpkg::BuildInfo(3perl)                                               libdpkg-perl                                               Dpkg::BuildInfo(3perl)
+
+NAME
+       Dpkg::BuildInfo - handle build information
+
+DESCRIPTION
+       The Dpkg::BuildInfo module provides functions to handle the build information.
+
+FUNCTIONS
+       @envvars = get_build_env_allowed()
+           Get an array with the allowed list of environment variables that can affect the build, but are still not privacy revealing.
+
+CHANGES
+   Version 1.00 (dpkg 1.21.14)
+       Mark the module as public.
+
+1.21.22                                                               2023-05-11                                                Dpkg::BuildInfo(3perl)

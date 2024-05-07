@@ -1,0 +1,63 @@
+Dpkg::BuildOptions(3perl)                                            libdpkg-perl                                            Dpkg::BuildOptions(3perl)
+
+NAME
+       Dpkg::BuildOptions - parse and update build options
+
+DESCRIPTION
+       This class can be used to manipulate options stored in environment variables like DEB_BUILD_OPTIONS and DEB_BUILD_MAINT_OPTIONS.
+
+METHODS
+       $bo = Dpkg::BuildOptions->new(%opts)
+           Create a new Dpkg::BuildOptions object. It will be initialized based on the value of the environment variable named $opts{envvar} (or
+           DEB_BUILD_OPTIONS if that option is not set).
+
+       $bo->reset()
+           Reset the object to not have any option (it's empty).
+
+       $bo->merge($content, $source)
+           Merge the options set in $content and record that they come from the source $source. $source is mainly used in warning messages currently
+           to indicate where invalid options have been detected.
+
+           $content is a space separated list of options with optional assigned values like "nocheck parallel=2".
+
+       $bo->set($option, $value, [$source])
+           Store the given option in the object with the given value. It's legitimate for a value to be undefined if the option is a simple boolean
+           (its presence means true, its absence means false). The $source is optional and indicates where the option comes from.
+
+           The known options have their values checked for sanity. Options without values have their value removed and options with invalid values are
+           discarded.
+
+       $bo->get($option)
+           Return the value associated to the option. It might be undef even if the option exists. You might want to check with $bo->has($option) to
+           verify if the option is stored in the object.
+
+       $bo->has($option)
+           Returns a boolean indicating whether the option is stored in the object.
+
+       $bo->parse_features($option, $use_feature)
+           Parse the $option values, as a set of known features to enable or disable, as specified in the $use_feature hash reference.
+
+           Each feature is prefixed with a '+' or a '-' character as a marker to enable or disable it. The special feature "all" can be used to act on
+           all known features.
+
+           Unknown or malformed features will emit warnings.
+
+       $string = $bo->output($fh)
+           Return a string representation of the build options suitable to be assigned to an environment variable. Can optionally output that string
+           to the given filehandle.
+
+       $bo->export([$var])
+           Export the build options to the given environment variable. If omitted, the environment variable defined at creation time is assumed. The
+           value set to the variable is also returned.
+
+CHANGES
+   Version 1.02 (dpkg 1.18.19)
+       New method: $bo->parse_features().
+
+   Version 1.01 (dpkg 1.16.1)
+       Enable to use another environment variable instead of DEB_BUILD_OPTIONS.  Thus add support for the "envvar" option at creation time.
+
+   Version 1.00 (dpkg 1.15.6)
+       Mark the module as public.
+
+1.21.22                                                               2023-05-11                                             Dpkg::BuildOptions(3perl)

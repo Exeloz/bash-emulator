@@ -1,0 +1,41 @@
+Dpkg::Interface::Storable(3perl)                                     libdpkg-perl                                     Dpkg::Interface::Storable(3perl)
+
+NAME
+       Dpkg::Interface::Storable - common methods related to object serialization
+
+DESCRIPTION
+       Dpkg::Interface::Storable is only meant to be used as parent class for other classes. It provides common methods that are all implemented on
+       top of two basic methods parse() and output().
+
+BASE METHODS
+       Those methods must be provided by the class that wish to inherit from Dpkg::Interface::Storable so that the methods provided can work.
+
+       $obj->parse($fh[, $desc])
+           This methods initialize the object with the data stored in the filehandle. $desc is optional and is a textual description of the filehandle
+           used in error messages.
+
+       $string = $obj->output([$fh])
+           This method returns a string representation of the object in $string and it writes the same string to $fh (if it's defined).
+
+PROVIDED METHODS
+       $obj->load($filename, %opts)
+           Initialize the object with the data stored in the file. The file can be compressed, it will be decompressed on the fly by using a
+           Dpkg::Compression::FileHandle object. If $opts{compression} is false the decompression support will be disabled. If $filename is "-", then
+           the standard input is read (no compression is allowed in that case).
+
+       $obj->save($filename, %opts)
+           Store the object in the file. If the filename ends with a known compression extension, it will be compressed on the fly by using a
+           Dpkg::Compression::FileHandle object. If $opts{compression} is false the compression support will be disabled. If $filename is "-", then
+           the standard output is used (data are written uncompressed in that case).
+
+       "$obj"
+           Return a string representation of the object.
+
+CHANGES
+   Version 1.01 (dpkg 1.19.0)
+       New options: The $obj->load() and $obj->save() methods support a new compression option.
+
+   Version 1.00 (dpkg 1.15.6)
+       Mark the module as public.
+
+1.21.22                                                               2023-05-11                                      Dpkg::Interface::Storable(3perl)

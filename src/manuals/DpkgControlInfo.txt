@@ -1,0 +1,56 @@
+Dpkg::Control::Info(3perl)                                           libdpkg-perl                                           Dpkg::Control::Info(3perl)
+
+NAME
+       Dpkg::Control::Info - parse files like debian/control
+
+DESCRIPTION
+       It provides a class to access data of files that follow the same syntax as debian/control.
+
+METHODS
+       $c = Dpkg::Control::Info->new(%opts)
+           Create a new Dpkg::Control::Info object. Loads the file from the filename option, if no option is specified filename defaults to
+           debian/control.  If a scalar is passed instead, it will be used as the filename. If filename is "-", it parses the standard input. If
+           filename is undef no loading will be performed.
+
+       $c->reset()
+           Resets what got read.
+
+       $c->parse($fh, $description)
+           Parse a control file from the given filehandle. Exits in case of errors.  $description is used to describe the filehandle, ideally it's a
+           filename or a description of where the data comes from. It is used in error messages.  The data in the object is reset before parsing new
+           control files.
+
+       $c->load($file)
+           Load the content of $file. Exits in case of errors. If file is "-", it loads from the standard input.
+
+       $c->[0]
+       $c->get_source()
+           Returns a Dpkg::Control object containing the fields concerning the source package.
+
+       $c->get_pkg_by_idx($idx)
+           Returns a Dpkg::Control object containing the fields concerning the binary package numbered $idx (starting at 1).
+
+       $c->get_pkg_by_name($name)
+           Returns a Dpkg::Control object containing the fields concerning the binary package named $name.
+
+       $c->get_packages()
+           Returns a list containing the Dpkg::Control objects for all binary packages.
+
+       $str = $c->output([$fh])
+           Return the content info into a string. If $fh is specified print it into the filehandle.
+
+       "$c"
+           Return a string representation of the content.
+
+       @{$c}
+           Return a list of Dpkg::Control objects, the first one is corresponding to source information and the following ones are the binary packages
+           information.
+
+CHANGES
+   Version 1.01 (dpkg 1.18.0)
+       New argument: The $c->new() constructor accepts an %opts argument.
+
+   Version 1.00 (dpkg 1.15.6)
+       Mark the module as public.
+
+1.21.22                                                               2023-05-11                                            Dpkg::Control::Info(3perl)

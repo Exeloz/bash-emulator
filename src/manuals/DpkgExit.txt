@@ -1,0 +1,31 @@
+Dpkg::Exit(3perl)                                                    libdpkg-perl                                                    Dpkg::Exit(3perl)
+
+NAME
+       Dpkg::Exit - program exit handlers
+
+DESCRIPTION
+       The Dpkg::Exit module provides support functions to run handlers on exit.
+
+FUNCTIONS
+       push_exit_handler($func)
+           Register a code reference into the exit function handlers stack.
+
+       pop_exit_handler()
+           Pop the last registered exit handler from the handlers stack.
+
+       run_exit_handlers()
+           Run the registered exit handlers.
+
+CHANGES
+   Version 2.00 (dpkg 1.20.0)
+       Hide variable: @handlers.
+
+   Version 1.01 (dpkg 1.17.2)
+       New functions: push_exit_handler(), pop_exit_handler(), run_exit_handlers()
+
+       Deprecated variable: @handlers
+
+   Version 1.00 (dpkg 1.15.6)
+       Mark the module as public.
+
+1.21.22                                                               2023-05-11                                                     Dpkg::Exit(3perl)

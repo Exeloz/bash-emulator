@@ -1,0 +1,26 @@
+blksize_t(3type)                                                                                                                      blksize_t(3type)
+
+NAME
+       blksize_t - file block sizes
+
+LIBRARY
+       Standard C library (libc)
+
+SYNOPSIS
+       #include <sys/types.h>
+
+       typedef /* ... */ blksize_t;
+
+DESCRIPTION
+       Used for file block sizes.  It is a signed integer type.
+
+STANDARDS
+       POSIX.1-2001 and later.
+
+NOTES
+       The following header also provides this type: <sys/stat.h>.
+
+SEE ALSO
+       stat(3type)
+
+Linux man-pages 6.03                                                  2022-10-30                                                      blksize_t(3type)

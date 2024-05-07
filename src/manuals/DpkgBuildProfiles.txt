@@ -1,0 +1,27 @@
+Dpkg::BuildProfiles(3perl)                                           libdpkg-perl                                           Dpkg::BuildProfiles(3perl)
+
+NAME
+       Dpkg::BuildProfiles - handle build profiles
+
+DESCRIPTION
+       The Dpkg::BuildProfiles module provides functions to handle the build profiles.
+
+FUNCTIONS
+       @profiles = get_build_profiles()
+           Get an array with the currently active build profiles, taken from the environment variable DEB_BUILD_PROFILES.
+
+       set_build_profiles(@profiles)
+           Set @profiles as the current active build profiles, by setting the environment variable DEB_BUILD_PROFILES.
+
+       @profiles = parse_build_profiles($string)
+           Parses a build profiles specification, into an array of array references.
+
+       evaluate_restriction_formula(\@formula, \@profiles)
+           Evaluate whether a restriction formula of the form "<foo bar> <baz>", given as a nested array, is true or false, given the array of enabled
+           build profiles.
+
+CHANGES
+   Version 1.00 (dpkg 1.17.17)
+       Mark the module as public.
+
+1.21.22                                                               2023-05-11                                            Dpkg::BuildProfiles(3perl)

@@ -1,0 +1,32 @@
+Dpkg::Build::Info(3perl)                                             libdpkg-perl                                             Dpkg::Build::Info(3perl)
+
+NAME
+       Dpkg::Build::Info - handle build information
+
+DESCRIPTION
+       The Dpkg::Build::Info module provides functions to handle the build information.
+
+       This module is deprecated, use Dpkg::BuildInfo instead.
+
+FUNCTIONS
+       @envvars = get_build_env_allowed()
+           Get an array with the allowed list of environment variables that can affect the build, but are still not privacy revealing.
+
+           This is a deprecated alias for Dpkg::BuildInfo::get_build_env_allowed().
+
+       @envvars = get_build_env_whitelist()
+           This is a deprecated alias for Dpkg::BuildInfo::get_build_env_allowed().
+
+CHANGES
+   Version 1.02 (dpkg 1.21.14)
+       Deprecate module: replaced by Dpkg::BuildInfo.
+
+   Version 1.01 (dpkg 1.20.1)
+       New function: get_build_env_allowed().
+
+       Deprecated function: get_build_env_whitelist().
+
+   Version 1.00 (dpkg 1.18.14)
+       Mark the module as public.
+
+1.21.22                                                               2023-05-11                                              Dpkg::Build::Info(3perl)

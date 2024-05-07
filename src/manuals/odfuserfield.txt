@@ -1,0 +1,54 @@
+ODFUSERFIELD(1)                                                      User commands                                                     ODFUSERFIELD(1)
+
+NAME
+       odfuserfield - List or change the user-field declarations in an ODF file
+
+SYNOPSIS
+       odfuserfield [-l] [-L] [-x field...] [-X field...] [-s field:value...] [-o path] path
+
+DESCRIPTION
+       Odfuserfield is a program that will list or change the user variable declarations in an OpenDocument file. There are two kinds of variables in
+       OpenDocument. Simple variables can take different values at different positions, throughout a document. User variables have the same value
+       throughout a document. Due to the latter's global nature it is safe to change them with an external application.
+
+       Use odfuserfield to fill out form letters before printing or giving to the user.
+
+       “Path” is assumed to be an OpenDocument file of text, spreadsheet or presentation type.
+
+OPTIONS
+       -l
+           List (extract) all known user-fields.
+
+       -L
+           List (extract) all known user-fields with type and value.
+
+       -x field
+           Extract the contents of this field from the file.
+
+       -X field
+           Same as -x, but also preserves/includes the field name and type.
+
+       -s field:value
+           Set the value of an existing user field. The field type will be the same.
+
+       -o path
+           Filename to write modified ODT file to. If no -o option is provided, the ODT file will be written to stdout.
+
+EXAMPLE
+           odfuserfield -L odf-file
+
+SEE ALSO
+       formail(1), id3tag(1)
+
+TODO
+       Implement formulas. See OpenDocument v1.0 specification section 6.3.5. This requires a different syntax for -s arguments.
+
+AUTHORS
+       Søren Roug
+           Original author
+
+       Michael Howitz
+       gocept gmbh & co. kg
+           Refactoring
+
+odfpy                                                                 10/19/2022                                                       ODFUSERFIELD(1)

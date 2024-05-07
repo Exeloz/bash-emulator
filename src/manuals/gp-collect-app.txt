@@ -1,0 +1,92 @@
+GP-COLLECT-APP(1)                                                    User Commands                                                   GP-COLLECT-APP(1)
+
+NAME
+       gp-collect-app - collect performance data for the target application
+
+SYNOPSIS
+       gprofng collect app [OPTION(S)] TARGET [TARGET_ARGUMENTS]
+
+DESCRIPTION
+       Collect  performance  data  on the target program. In addition to Program Counter PC) sampling, hardware event counters and various tracing op‐
+       tions are supported.
+
+OPTIONS
+       --version
+              print the version number and exit.
+
+       --help print usage information and exit.
+
+       --verbose {on|off}
+              enable (on) or disable (off) verbose mode; the default is "off".
+
+       -p {off|on|lo|hi|<value>}
+              disable (off) or enable (on) clock-profiling using a default sampling granularity, or enable clock-profiling implicitly by  setting  the
+              sampling granularity (lo, hi, or a specific value in ms); by default clock profiling is enabled.
+
+       -h {<ctr_def>...,<ctr_n_def>}
+              enable  hardware event counter profiling and select the counter(s); to see the supported counters on this system use the -h option with‐
+              out other arguments.
+
+       -o <exp_name>
+              specify the name for (and path to) the experiment directory; the the default path is the current directory.
+
+       -O <exp_name>
+              the same as -o, but unlike the -o option, silently overwrite an existing experiment directory with the same name.
+
+       -C <label>
+              add up to 10 comment labels to the experiment; comments appear in the notes section of the header.
+
+       -j {on|off|<path>} enable (on), or disable (off) Java profiling when the target
+              program is a JVM; optionally set the <path> to a non-default JVM; the default is "-j on".
+
+       -J <java-args>
+              specify arguments to the JVM.
+
+       -t <duration>[m|s]
+              specify the duration over which to record data; the default unit is seconds (s), but can be set to minutes (m).
+
+       -n     dry run; display several run-time settings, but do not run the target, or collect performance data.
+
+       -y <signal>[,r]
+              specify delayed initialization and a pause/resume signal; by default the target starts in paused mode; if the optional r keyword is pro‐
+              vided, start in resumed mode.
+
+       -F {off|on|=<regex>}
+              control  to  follow descendant processes; disable (off), enable (on), or collect data on all descendant processes whose name matches the
+              specified regular expression; the default is "-F on".
+
+       -a {off|on|ldobjects|src|usedldobjects|usedsrc}
+              specify archiving of binaries and other files; in addition to disable this feature (off), or enable archiving off  all  loadobjects  and
+              sources  (on),  the other options support a more refined selection. All of these options enable archiving, but the keyword controls what
+              exactly is selected: all load objects (ldobjects), all source files (src), the loadobjects asscoiated with a program counter  (usedldob‐
+              jects), or the source files associated with a program counter (usedsrc); the default is "-a ldobjects".
+
+       -S {off|on|<seconds>}
+              disable  (off)  or  enable (on) periodic sampling of process-wide resource utilization; by default sampling occurs every second; use the
+              <seconds> option to change this; the default is "-S on".
+
+       -l <signal>
+              specify a signal that will trigger a sample of process-wide resource utilization.
+
+       -s <option>[,<API>]
+              enable synchronization wait tracing; <option> is used to define the specifics of the tracing (on, off, <threshold>, or  all);  <API>  is
+              used to select the API: "n" selects native/Pthreads, "j" selects Java, and "nj" selects both; the default is "-s off".
+
+       -H {off|on}
+              disable (off), or enable (on) heap tracing; the default is "-H off".
+
+       -i {off|on}
+              disable (off), or enable (on) I/O tracing; the default is "-i off".
+
+DOCUMENTATION
+       A  getting  started  guide for gprofng is maintained as a Texinfo manual. If the info and gprofng programs are properly installed at your site,
+       the command "info gprofng" should give you access to this document.
+
+SEE ALSO
+       gprofng(1), gp-archive(1), gp-display-html(1), gp-display-src(1), gp-display-text(1)
+
+COPYRIGHT
+       Copyright © 2023 Free Software Foundation, Inc.  License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.
+       This is free software: you are free to change and redistribute it.  There is NO WARRANTY, to the extent permitted by law.
+
+GNU gp-collect-app binutils version 2.40.00                          January 2023                                                    GP-COLLECT-APP(1)

@@ -1,0 +1,15 @@
+Dpkg::Control::Types(3perl)                                          libdpkg-perl                                          Dpkg::Control::Types(3perl)
+
+NAME
+       Dpkg::Control::Types - export CTRL_* constants
+
+DESCRIPTION
+       You should not use this module directly. Instead you more likely want to use Dpkg::Control which also re-exports the same constants.
+
+       This module has been introduced solely to avoid a dependency loop between Dpkg::Control and Dpkg::Control::Fields.
+
+CHANGES
+   Version 0.xx
+       This is a private module.
+
+1.21.22                                                               2023-05-11                                           Dpkg::Control::Types(3perl)

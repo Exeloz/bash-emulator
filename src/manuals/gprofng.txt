@@ -1,0 +1,98 @@
+GPROFNG(1)                                                           User Commands                                                          GPROFNG(1)
+
+NAME
+       gprofng - the driver for the gprofng tool suite
+
+SYNOPSIS
+       gprofng [OPTION(S)] COMMAND [KEYWORD] [ARGUMENTS]
+
+DESCRIPTION
+       This is the driver for the GPROFNG tools suite to gather and analyze performance data.
+
+OPTIONS
+       --version
+              print the version number and exit.
+
+       --help print usage information and exit.
+
+       --check
+              verify if the hardware and software environment is supported.
+
+       --verbose {on|off}
+              enable (on) or disable (off) verbose mode; the default is "off".
+
+COMMANDS
+       The driver supports various commands. These are listed below.
+
+       It is also possible to invoke the lower level commands directly, but since these are subject to change, in particular the options, we recommend
+       to use the driver.
+
+       The man pages for the commands below can be viewed using the command name with "gprofng" replaced by "gp" and the spaces  replaced  by  a  dash
+       ("-"). For example the man page name for "gprofng collect app" is "gp-collect-app".
+
+       The following combination of commands and keywords are supported:
+
+       Collect performance data
+
+       gprofng collect app
+              collect application performance data.
+
+       Display the performance results
+
+       gprofng display text
+              display the performance data in ASCII format.
+
+       gprofng display html
+              generate an HTML file from one or more experiments.
+
+       gprofng display src
+              display source or disassembly with compiler annotations.
+
+       Miscellaneous commands
+
+       gprofng archive
+              include binaries and source code in an experiment directory.
+
+ENVIRONMENT
+       The following environment variables are supported:
+
+       GPROFNG_MAX_CALL_STACK_DEPTH
+              set the depth of the call stack (default is 256).
+
+       GPROFNG_USE_JAVA_OPTIONS
+              may be set when profiling a C/C++ application that uses dlopen() to execute Java code.
+
+       GPROFNG_SSH_REMOTE_DISPLAY
+              use this variable to define the ssh command executed by the remote display tool.
+
+       GPROFNG_SKIP_VALIDATION
+              set this variable to disable checking hardware, system, and Java versions.
+
+       GPROFNG_ALLOW_CORE_DUMP
+              set this variable to allow a core file to be generated; otherwise an error report is created on /tmp.
+
+       GPROFNG_ARCHIVE
+              use this variable to define the settings for automatic archiving upon experiment recording completion.
+
+       GPROFNG_ARCHIVE_COMMON_DIR
+              set this variable to the location of the common archive.
+
+       GPROFNG_JAVA_MAX_CALL_STACK_DEPTH
+              set the depth of the Java call stack; the default is 256; set to 0 to disable capturing of call stacks.
+
+       GPROFNG_JAVA_NATIVE_MAX_CALL_STACK_DEPTH
+              set  the  depth  of  the Java native call stack; the default is 256; set to 0 to disable capturing of call stacks (JNI and assembly call
+              stacks are not captured).
+
+DOCUMENTATION
+       A getting started guide for gprofng is maintained as a Texinfo manual. If the info and gprofng programs are properly installed  at  your  site,
+       the command "info gprofng" should give you access to this document.
+
+SEE ALSO
+       gp-archive(1), gp-collect-app(1), gp-display-html(1), gp-display-src(1), gp-display-text(1)
+
+COPYRIGHT
+       Copyright © 2023 Free Software Foundation, Inc.  License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.
+       This is free software: you are free to change and redistribute it.  There is NO WARRANTY, to the extent permitted by law.
+
+GNU gprofng binutils version 2.40.00                                 January 2023                                                           GPROFNG(1)
