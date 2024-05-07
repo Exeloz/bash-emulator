@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
 
-    <title>TryBash Emulator</title>
+    <title>Demo cat</title>
 
     <style>
       html,
@@ -55,37 +55,45 @@
       <input id="input" type="text" autofocus />
     </div>
 
-    <script src="bundle.min.js"></script>
+    <script src="../bundle.min.js"></script>
     <script>
       var input = document.getElementById("input");
       var output = document.getElementById("output");
 
+      var filesWithContent = [
+        { path: "/README.txt", content: "This is a README file." },
+        {
+          path: "/home/user/journal.txt",
+          content: "This is a private journal.",
+        },
+      ];
+
+      var fileSystem = {
+        "/": {
+          type: "dir",
+          modified: Date.now(),
+        },
+        "/home": {
+          type: "dir",
+          modified: Date.now(),
+        },
+        "/home/user": {
+          type: "dir",
+          modified: Date.now(),
+        },
+      };
+
+      filesWithContent.forEach(function (file) {
+        fileSystem[file.path] = {
+          type: "file",
+          modified: Date.now(),
+          content: file.content,
+        };
+      });
+
       var emulator = bashEmulator({
         workingDirectory: "/",
-        fileSystem: {
-          "/": {
-            type: "dir",
-            modified: Date.now(),
-          },
-          "/README.txt": {
-            type: "file",
-            modified: Date.now(),
-            content: "empty",
-          },
-          "/home": {
-            type: "dir",
-            modified: Date.now(),
-          },
-          "/home/user/journal.txt": {
-            type: "file",
-            modified: Date.now(),
-            content: "this is private!",
-          },
-          "/home/user": {
-            type: "dir",
-            modified: Date.now(),
-          },
-        },
+        fileSystem: fileSystem,
       });
 
       emulator.commands.clear = function (env) {
@@ -159,9 +167,22 @@
         input.focus();
       });
 
-      run("pwd").then(function () {
-        run("ls");
-      });
+      function executeCommands() {
+        run("ls").then(function () {
+          executeCatCommand(0);
+        });
+      }
+
+      function executeCatCommand(index) {
+        if (index < filesWithContent.length) {
+          var filePath = filesWithContent[index].path;
+          run(`cat ${filePath}`).then(function () {
+            executeCatCommand(index + 1);
+          });
+        }
+      }
+
+      executeCommands();
     </script>
     <body>
       <html></html>
