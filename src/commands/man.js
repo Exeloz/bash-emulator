@@ -2,11 +2,11 @@ var fetch = require('node-fetch');
 
 
 function man(env, args) {
-  var command = args[0];
+  var command = args[1];
 
   // Function to fetch man page from the web
   async function fetchManPage(command) {
-    var url = `https://raw.githubusercontent.com/Exeloz/bash-emulator/master/src/manual/${command}.txt`;
+    var url = `https://raw.githubusercontent.com/Exeloz/bash-emulator/master/src/manuals/${command}.txt`;
     try {
       var response = await fetch(url);
       if (response.ok) {
