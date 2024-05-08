@@ -96,6 +96,8 @@
       var ENTER = 13;
       var UP = 38;
       var DOWN = 40;
+      var PLUS = 107;
+      var MINUS = 109;
 
       function log(result) {
         if (result) {
@@ -138,8 +140,21 @@
       }
 
       input.addEventListener("keydown", function (e) {
-        if (e.altKey || e.metaKey || e.shiftKey || e.ctrlKey) {
+        if (e.altKey || e.metaKey || e.shiftKey) {
+          console.log('?');
+          e.preventDefault();
           return;
+        }
+        if (e.ctrlKey) {
+          e.preventDefault();
+          console.log(`ctrl: ${e.which}`);
+          if (e.which === PLUS) {
+            var currentSize = parseFloat(getComputedStyle(output).fontSize);
+            output.style.fontSize = currentSize * 1.1 + "px";
+          } else if (e.which === MINUS) {
+            var currentSize = parseFloat(getComputedStyle(output).fontSize);
+            output.style.fontSize = Math.max(currentSize * 0.9, 8) + "px";
+          }
         }
         if (e.which === UP || e.which === DOWN) {
           e.preventDefault();
