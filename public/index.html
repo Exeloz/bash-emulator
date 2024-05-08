@@ -100,6 +100,7 @@
       function log(result) {
         if (result) {
           output.innerHTML += result + "\n";
+          keepScrolledDownForInput();
         }
       }
 
@@ -110,6 +111,11 @@
       function run(cmd) {
         log("$ " + cmd);
         return emulator.run(cmd).then(log, error);
+      }
+
+      function keepScrolledDownForInput() {
+        const scrollHeight = document.body.scrollHeight;
+        window.scrollTo(0, scrollHeight);
       }
 
       var completeFunctions = {};
@@ -138,6 +144,7 @@
         if (e.which === UP || e.which === DOWN) {
           e.preventDefault();
           complete(e.which);
+          keepScrolledDownForInput();
         }
       });
 
