@@ -120,6 +120,12 @@
         window.scrollTo(0, scrollHeight);
       }
 
+      function adjustFontSize(multiplicativeDelta) {
+        var currentSize = parseFloat(getComputedStyle(document.body).fontSize);
+        document.body.style.fontSize =
+          Math.max(currentSize * multiplicativeDelta, 8) + "px";
+      }
+
       var completeFunctions = {};
       completeFunctions[UP] = emulator.completeUp;
       completeFunctions[DOWN] = emulator.completeDown;
@@ -141,7 +147,7 @@
 
       input.addEventListener("keydown", function (e) {
         if (e.altKey || e.metaKey || e.shiftKey) {
-          console.log('?');
+          console.log("?");
           e.preventDefault();
           return;
         }
@@ -149,11 +155,9 @@
           e.preventDefault();
           console.log(`ctrl: ${e.which}`);
           if (e.which === PLUS) {
-            var currentSize = parseFloat(getComputedStyle(document.body).fontSize);
-            document.body.style.fontSize = currentSize * 1.1 + "px";
+            adjustFontSize(1.1);
           } else if (e.which === MINUS) {
-            var currentSize = parseFloat(getComputedStyle(document.body).fontSize);
-            document.body.style.fontSize = Math.max(currentSize * 0.9, 8) + "px";
+            adjustFontSize(0.9);
           }
         }
         if (e.which === UP || e.which === DOWN) {
@@ -162,6 +166,18 @@
           keepScrolledDownForInput();
         }
       });
+
+      document.body.addEventListener(
+        "wheel",
+        function (e) {
+          if (e.ctrlKey) {
+            e.preventDefault();
+            adjustFontSize(1.0 - e.deltaY / 1000.0);
+            console.log(1.0 - e.deltaY / 1000.0);
+          }
+        },
+        { passive: false }
+      );
 
       input.addEventListener("keyup", function (e) {
         if (e.which !== ENTER) {
