@@ -1,10 +1,10 @@
-var test = require('tape')
-var bashEmulator = require('../../src')
+const test = require('tape')
+const bashEmulator = require('../../src')
 
 test('mkdir', function (t) {
   t.plan(7)
 
-  var emulator = bashEmulator({
+  const emulator = bashEmulator({
     workingDirectory: '/',
     fileSystem: {
       '/': {

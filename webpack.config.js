@@ -1,5 +1,5 @@
-const path = require('path');
-const TerserPlugin = require("terser-webpack-plugin");
+const path = require('path')
+const TerserPlugin = require('terser-webpack-plugin')
 
 module.exports = {
   // Set the mode for development or production
@@ -11,7 +11,7 @@ module.exports = {
   // Output configuration for the bundled file
   output: {
     filename: 'bundle.min.js', // Output filename
-    path: path.resolve(__dirname, 'public'), // Output directory
+    path: path.resolve(__dirname, 'public') // Output directory
   },
 
   // Module loaders for processing different file types
@@ -24,19 +24,19 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env'], // Preset for modern JS features
-          },
-        },
-      },
+            presets: ['@babel/preset-env'] // Preset for modern JS features
+          }
+        }
+      }
       // Add rules for other file types like CSS, images, etc. (optional)
-    ],
+    ]
   },
 
   // Optimization options for production builds
   optimization: {
     minimize: true, // Enable minification
     minimizer: [
-        //new TerserPlugin(),
-    ],
-  },
-};
+      // new TerserPlugin(),
+    ]
+  }
+}

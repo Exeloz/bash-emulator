@@ -1,13 +1,13 @@
-var SINGLE_COPY = 'SINGLE_COPY'
+const SINGLE_COPY = 'SINGLE_COPY'
 
 function cp (env, args) {
   // Ignore command name
   args.shift()
 
-  var rFlagIndex = args.findIndex(function (arg) {
+  const rFlagIndex = args.findIndex(function (arg) {
     return arg === '-r' || arg === '-R'
   })
-  var isRecursive = rFlagIndex !== -1
+  const isRecursive = rFlagIndex !== -1
   if (isRecursive) {
     args.splice(rFlagIndex, 1)
   }
@@ -23,8 +23,8 @@ function cp (env, args) {
     return
   }
 
-  var destination = args[args.length - 1]
-  var files = args.slice(0, -1)
+  const destination = args[args.length - 1]
+  const files = args.slice(0, -1)
 
   function copy (file, dest) {
     return env.system.stat(file).then(function (stats) {
@@ -52,9 +52,9 @@ function cp (env, args) {
         return copy(files[0], destination)
       }
       return Promise.all(files.map(function (file) {
-        var filePathParts = file.split('/')
-        var fileName = filePathParts[filePathParts.length - 1]
-        var dest = destination + '/' + fileName
+        const filePathParts = file.split('/')
+        const fileName = filePathParts[filePathParts.length - 1]
+        const dest = destination + '/' + fileName
         return copy(file, dest)
       }))
     })

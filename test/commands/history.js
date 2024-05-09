@@ -1,10 +1,10 @@
-var test = require('tape')
-var bashEmulator = require('../../src')
+const test = require('tape')
+const bashEmulator = require('../../src')
 
 test('history', function (t) {
   t.plan(2)
 
-  var emulator = bashEmulator()
+  const emulator = bashEmulator()
 
   emulator.run('pwd')
     .then(function () {
@@ -17,12 +17,12 @@ test('history', function (t) {
       t.equal(history, '    1  pwd\n    2  nonexistent cmd\n    3  history', 'appends to history')
     })
 
-  var emulatorLong = bashEmulator({
+  const emulatorLong = bashEmulator({
     history: ['ls', 'ls', 'ls', 'ls', 'ls', 'ls', 'ls', 'ls', 'ls', 'ls']
   })
 
   emulatorLong.run('history').then(function (history) {
-    var res =
+    const res =
     '    1  ls\n' +
     '    2  ls\n' +
     '    3  ls\n' +

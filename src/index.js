@@ -2,18 +2,18 @@ require('array.prototype.findindex')
 require('string.prototype.startswith')
 require('string.prototype.includes')
 require('string.prototype.repeat')
-var commands = require('./commands')
+const commands = require('./commands')
 
 function bashEmulator (initialState) {
-  var state = createState(initialState)
-  var completion = {}
+  const state = createState(initialState)
+  const completion = {}
 
   function getPath (path) {
     return joinPaths(state.workingDirectory, path)
   }
 
   function parentExists (path) {
-    var parentPath = getPath(path).split('/').slice(0, -1).join('/')
+    const parentPath = getPath(path).split('/').slice(0, -1).join('/')
 
     return emulator.stat(parentPath).then(function (stats) {
       if (stats.type === 'dir') {
@@ -24,16 +24,16 @@ function bashEmulator (initialState) {
     })
   }
 
-  var emulator = {
-    commands: commands,
+  const emulator = {
+    commands,
 
-    state: state,
+    state,
 
     run: function (input) {
       state.history.push(input)
 
-      var argsList = input.split('|').map(function (pipe) {
-        var args = pipe.trim().split(' ').filter(function (s) {
+      const argsList = input.split('|').map(function (pipe) {
+        const args = pipe.trim().split(' ').filter(function (s) {
           return s
         })
         return args
@@ -51,8 +51,8 @@ function bashEmulator (initialState) {
         return Promise.reject("syntax error near unexpected token `|'")
       }
 
-      var nonExistent = argsList.filter(function (args) {
-        var cmd = args[0]
+      const nonExistent = argsList.filter(function (args) {
+        const cmd = args[0]
         return !commands[cmd]
       })
       if (nonExistent.length) {
@@ -61,18 +61,18 @@ function bashEmulator (initialState) {
         }).join('\n'))
       }
 
-      var result = ''
+      let result = ''
 
       return new Promise(function (resolve, reject) {
-        var pipes = argsList.map(function (args, idx) {
-          var isLast = idx === argsList.length - 1
+        const pipes = argsList.map(function (args, idx) {
+          const isLast = idx === argsList.length - 1
           return commands[args[0]]({
             output: function (str) {
               if (isLast) {
                 result += str
                 return
               }
-              var nextInput = pipes[idx + 1] && pipes[idx + 1].input
+              const nextInput = pipes[idx + 1] && pipes[idx + 1].input
               if (nextInput) {
                 nextInput(str)
               }
@@ -91,7 +91,7 @@ function bashEmulator (initialState) {
                 }
                 return
               }
-              var nextClose = pipes[idx + 1] && pipes[idx + 1].close
+              const nextClose = pipes[idx + 1] && pipes[idx + 1].close
               if (nextClose) {
                 nextClose()
               }
@@ -107,7 +107,7 @@ function bashEmulator (initialState) {
     },
 
     changeDir: function (target) {
-      var normalizedPath = getPath(target)
+      const normalizedPath = getPath(target)
       if (!state.fileSystem[normalizedPath]) {
         return Promise.reject(normalizedPath + ': No such file or directory')
       }
@@ -116,7 +116,7 @@ function bashEmulator (initialState) {
     },
 
     read: function (arg) {
-      var filePath = getPath(arg)
+      const filePath = getPath(arg)
       if (!state.fileSystem[filePath]) {
         return Promise.reject(arg + ': No such file or directory')
       }
@@ -127,11 +127,11 @@ function bashEmulator (initialState) {
     },
 
     readDir: function (path) {
-      var dir = getPath(path)
+      const dir = getPath(path)
       if (!state.fileSystem[dir]) {
         return Promise.reject('cannot access ‘' + path + '’: No such file or directory')
       }
-      var listing = Object.keys(state.fileSystem)
+      const listing = Object.keys(state.fileSystem)
         .filter(function (path) {
           return path.startsWith(dir) && path !== dir
         })
@@ -146,12 +146,12 @@ function bashEmulator (initialState) {
     },
 
     stat: function (path) {
-      var filePath = getPath(path)
+      const filePath = getPath(path)
       if (!state.fileSystem[filePath]) {
         return Promise.reject(path + ': No such file or directory')
       }
 
-      var pathParts = filePath.split('/')
+      const pathParts = filePath.split('/')
       return Promise.resolve({
         modified: state.fileSystem[filePath].modified,
         type: state.fileSystem[filePath].type,
@@ -167,7 +167,7 @@ function bashEmulator (initialState) {
           return parentExists(path)
         })
         .then(function () {
-          var dirPath = getPath(path)
+          const dirPath = getPath(path)
           state.fileSystem[dirPath] = {
             type: 'dir',
             modified: Date.now()
@@ -185,12 +185,12 @@ function bashEmulator (initialState) {
       }
 
       return parentExists(path).then(function () {
-        var filePath = getPath(path)
+        const filePath = getPath(path)
         return emulator.stat(path).then(function (stats) {
           if (stats.type !== 'file') {
             return Promise.reject(filePath + ': Is a folder')
           }
-          var oldContent = state.fileSystem[filePath].content
+          const oldContent = state.fileSystem[filePath].content
           state.fileSystem[filePath].content = oldContent + content
           state.fileSystem[filePath].modified = Date.now()
         }, function () {
@@ -198,14 +198,14 @@ function bashEmulator (initialState) {
           state.fileSystem[filePath] = {
             type: 'file',
             modified: Date.now(),
-            content: content
+            content
           }
         })
       })
     },
 
     remove: function (path) {
-      var filePath = getPath(path)
+      const filePath = getPath(path)
       if (!state.fileSystem[filePath]) {
         return Promise.reject('cannot remove ‘' + path + '’: No such file or directory')
       }
@@ -218,14 +218,14 @@ function bashEmulator (initialState) {
     },
 
     copy: function (source, destination) {
-      var sourcePath = getPath(source)
-      var destinationPath = getPath(destination)
+      const sourcePath = getPath(source)
+      const destinationPath = getPath(destination)
       if (!state.fileSystem[sourcePath]) {
         return Promise.reject(source + ': No such file or directory')
       }
       function renameAllSub (key) {
         if (key.startsWith(sourcePath)) {
-          var destKey = key.replace(sourcePath, destinationPath)
+          const destKey = key.replace(sourcePath, destinationPath)
           state.fileSystem[destKey] = state.fileSystem[key]
         }
       }
@@ -239,8 +239,8 @@ function bashEmulator (initialState) {
     },
 
     completeUp: function (input) {
-      var historyChanged = completion.historySize !== state.history.length
-      var inputChanged = input !== completion.input
+      const historyChanged = completion.historySize !== state.history.length
+      const inputChanged = input !== completion.input
       if (inputChanged || historyChanged) {
         // reset completion
         completion.input = input
@@ -270,7 +270,7 @@ function bashEmulator (initialState) {
 }
 
 function createState (initialState) {
-  var state = defaultState()
+  const state = defaultState()
   if (!initialState) {
     return state
   }
@@ -308,14 +308,14 @@ function joinPaths (a, b) {
   if (!b) {
     return a
   }
-  var path = (b.charAt(0) === '/' ? '' : a + '/') + b
-  var parts = path.split('/').filter(function noEmpty (p) {
+  const path = (b.charAt(0) === '/' ? '' : a + '/') + b
+  const parts = path.split('/').filter(function noEmpty (p) {
     return !!p
   })
   // Thanks to nodejs' path.join algorithm
-  var up = 0
-  for (var i = parts.length - 1; i >= 0; i--) {
-    var part = parts[i]
+  let up = 0
+  for (let i = parts.length - 1; i >= 0; i--) {
+    const part = parts[i]
     if (part === '.') {
       parts.splice(i, 1)
     } else if (part === '..') {

@@ -57,9 +57,6 @@
 
     <script src="../bundle.min.js"></script>
     <script>
-      var input = document.getElementById("input");
-      var output = document.getElementById("output");
-
       var filesWithContent = [
         { path: "/README.txt", content: "This is a README file." },
         {
@@ -101,71 +98,7 @@
         env.exit();
       };
 
-      var ENTER = 13;
-      var UP = 38;
-      var DOWN = 40;
-
-      function log(result) {
-        if (result) {
-          output.innerHTML += result + "\n";
-        }
-      }
-
-      function error(result) {
-        log('<div class="error">' + result + "</div>");
-      }
-
-      function run(cmd) {
-        log("$ " + cmd);
-        return emulator.run(cmd).then(log, error);
-      }
-
-      var completeFunctions = {};
-      completeFunctions[UP] = emulator.completeUp;
-      completeFunctions[DOWN] = emulator.completeDown;
-
-      function complete(direction) {
-        var completeFunction = completeFunctions[direction];
-        if (!completeFunction) {
-          return;
-        }
-        var cursorPosition = input.selectionStart;
-        var beforeCursor = input.value.slice(0, cursorPosition);
-        completeFunction(beforeCursor).then(function (completion) {
-          if (completion) {
-            input.value = completion;
-            input.setSelectionRange(cursorPosition, cursorPosition);
-          }
-        });
-      }
-
-      input.addEventListener("keydown", function (e) {
-        if (e.altKey || e.metaKey || e.shiftKey || e.ctrlKey) {
-          return;
-        }
-        if (e.which === UP || e.which === DOWN) {
-          e.preventDefault();
-          complete(e.which);
-        }
-      });
-
-      input.addEventListener("keyup", function (e) {
-        if (e.which !== ENTER) {
-          return;
-        }
-        run(input.value).then(function () {
-          input.value = "";
-          document.body.scrollTop = 10e6;
-        });
-      });
-
-      document.body.addEventListener("click", function () {
-        // Prevent when user is selecting text
-        if (!window.getSelection().isCollapsed) {
-          return;
-        }
-        input.focus();
-      });
+      attachEventListeners(document, emulator)
 
       function executeCommands() {
         run("ls").then(function () {

@@ -1,10 +1,10 @@
-var test = require('tape')
-var bashEmulator = require('../../src')
+const test = require('tape')
+const bashEmulator = require('../../src')
 
 test('cat', function (t) {
   t.plan(7)
 
-  var emulator = bashEmulator({
+  const emulator = bashEmulator({
     workingDirectory: '/',
     fileSystem: {
       '/1.txt': {
@@ -26,7 +26,7 @@ test('cat', function (t) {
   })
 
   emulator.run('cat 1.txt /3.txt /2.txt').then(function (output) {
-    var res =
+    const res =
       'first\n' +
       'third\n' +
       'second\n'
@@ -34,7 +34,7 @@ test('cat', function (t) {
   })
 
   emulator.run('cat nonexistent /1.txt').then(null, function (err) {
-    var res =
+    const res =
       'cat: nonexistent: No such file or directory' +
       '\n' +
       'first\n'
@@ -42,7 +42,7 @@ test('cat', function (t) {
   })
 
   emulator.run('cat -n 1.txt /3.txt /2.txt').then(function (output) {
-    var res =
+    const res =
       '     1  first\n' +
       '     2  third\n' +
       '     3  second\n'
@@ -50,7 +50,7 @@ test('cat', function (t) {
   })
 
   emulator.run('cat 1.txt -n /3.txt /2.txt').then(function (output) {
-    var res =
+    const res =
       '     1  first\n' +
       '     2  third\n' +
       '     3  second\n'
@@ -58,7 +58,7 @@ test('cat', function (t) {
   })
 
   emulator.run('cat 1.txt /3.txt /2.txt -n').then(function (output) {
-    var res =
+    const res =
       '     1  first\n' +
       '     2  third\n' +
       '     3  second\n'
@@ -66,12 +66,12 @@ test('cat', function (t) {
   })
 
   emulator.run('cat 1.txt | cat').then(function (output) {
-    var res = 'first\n'
+    const res = 'first\n'
     t.equal(output, res, 'cat from stdin')
   })
 
   emulator.run('cat 1.txt 2.txt | cat -n').then(function (output) {
-    var res =
+    const res =
       '     1  first\n' +
       '     2  second\n'
     t.equal(output, res, 'cat from stdin with -n')

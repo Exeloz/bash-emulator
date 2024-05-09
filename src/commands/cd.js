@@ -2,7 +2,7 @@ function cd (env, args) {
   // Ignore command name
   args.shift()
 
-  var path = args[0] || '/home/' + env.system.state.user
+  const path = args[0] || '/home/' + env.system.state.user
 
   env.system.changeDir(path).then(
     env.exit,
@@ -14,4 +14,3 @@ function cd (env, args) {
 }
 
 module.exports = cd
-

@@ -6,4 +6,3 @@ function pwd (env) {
 }
 
 module.exports = pwd
-

@@ -1,4 +1,4 @@
-var commands = {
+const commands = {
   cat: require('./cat'),
   cd: require('./cd'),
   cp: require('./cp'),

@@ -1,10 +1,10 @@
-var test = require('tape')
-var bashEmulator = require('../src')
+const test = require('tape')
+const bashEmulator = require('../src')
 
 test('initialise', function (t) {
   t.plan(1)
 
-  var emulator = bashEmulator()
+  const emulator = bashEmulator()
 
   t.equal(typeof emulator, 'object', 'emulator is an object')
 })
@@ -12,7 +12,7 @@ test('initialise', function (t) {
 test('initialise with state', function (t) {
   t.plan(1)
 
-  var testState = {
+  const testState = {
     history: ['ls'],
     user: 'test',
     workingDirectory: '/home/test',
@@ -31,7 +31,7 @@ test('initialise with state', function (t) {
       }
     }
   }
-  var emulator = bashEmulator(testState)
+  const emulator = bashEmulator(testState)
 
   t.deepEqual(emulator.state, testState, 'emulator uses initial state')
 })
@@ -78,7 +78,7 @@ test('ignore whitespace', function (t) {
 test('change working directory', function (t) {
   t.plan(6)
 
-  var emulator = bashEmulator()
+  const emulator = bashEmulator()
 
   emulator.getDir()
     .then(function (dir) {
@@ -131,7 +131,7 @@ test('change working directory', function (t) {
 test('update history', function (t) {
   t.plan(2)
 
-  var emulator = bashEmulator()
+  const emulator = bashEmulator()
 
   emulator.getHistory()
     .then(function (history) {
@@ -151,7 +151,7 @@ test('update history', function (t) {
 test('reading files', function (t) {
   t.plan(4)
 
-  var emulator = bashEmulator({
+  const emulator = bashEmulator({
     history: [],
     workingDirectory: '/',
     fileSystem: {
@@ -187,7 +187,7 @@ test('reading files', function (t) {
 test('reading a directory\'s content', function (t) {
   t.plan(4)
 
-  var emulator = bashEmulator({
+  const emulator = bashEmulator({
     fileSystem: {
       '/': {
         type: 'dir',
@@ -233,8 +233,8 @@ test('reading a directory\'s content', function (t) {
 test('stat', function (t) {
   t.plan(7)
 
-  var now = Date.now()
-  var emulator = bashEmulator({
+  const now = Date.now()
+  const emulator = bashEmulator({
     workingDirectory: '/',
     fileSystem: {
       '/': {
@@ -269,7 +269,7 @@ test('stat', function (t) {
 test('createDir', function (t) {
   t.plan(3)
 
-  var emulator = bashEmulator({
+  const emulator = bashEmulator({
     workingDirectory: '/',
     fileSystem: {
       '/': {
@@ -301,7 +301,7 @@ test('createDir', function (t) {
 test('write', function (t) {
   t.plan(8)
 
-  var emulator = bashEmulator({
+  const emulator = bashEmulator({
     workingDirectory: '/',
     fileSystem: {
       '/': {
@@ -328,7 +328,7 @@ test('write', function (t) {
     t.ok(true, 'content can be string')
   })
 
-  emulator.write('touched', {by: 'an angel'}).then(function () {
+  emulator.write('touched', { by: 'an angel' }).then(function () {
     t.ok(true, 'content can be stringifyable')
   })
 
@@ -370,7 +370,7 @@ test('write', function (t) {
 test('removing', function (t) {
   t.plan(4)
 
-  var emulator = bashEmulator({
+  const emulator = bashEmulator({
     history: [],
     workingDirectory: '/',
     fileSystem: {
@@ -417,7 +417,7 @@ test('removing', function (t) {
 test('copy', function (t) {
   t.plan(4)
 
-  var emulator = bashEmulator({
+  const emulator = bashEmulator({
     history: [],
     workingDirectory: '/',
     fileSystem: {
@@ -459,7 +459,7 @@ test('copy', function (t) {
 test('completion', function (t) {
   t.plan(10)
 
-  var emulator = bashEmulator({
+  const emulator = bashEmulator({
     history: [
       'cd /home/user',
       'ls ..',
@@ -514,7 +514,7 @@ test('completion', function (t) {
 
 test('run with pipes', function (t) {
   t.plan(7)
-  var emulator = bashEmulator()
+  const emulator = bashEmulator()
 
   emulator.run('pwd | cat | cat').then(function (output) {
     t.equal(output, '/home/user\n', 'pipes work as expected')

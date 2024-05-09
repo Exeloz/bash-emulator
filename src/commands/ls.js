@@ -1,6 +1,6 @@
 // NOTE: No support for files yet
 
-var disclaimer =
+const disclaimer =
   '\n' +
   'The output here is limited.' +
   '\n' +
@@ -10,23 +10,23 @@ function ls (env, args) {
   // Ignore command name
   args.shift()
 
-  var aFlagIndex = args.findIndex(function (arg) {
+  const aFlagIndex = args.findIndex(function (arg) {
     return arg === '-a'
   })
-  var showHidden = aFlagIndex !== -1
+  let showHidden = aFlagIndex !== -1
   if (showHidden) {
     args.splice(aFlagIndex, 1)
   }
 
-  var lFlagIndex = args.findIndex(function (arg) {
+  const lFlagIndex = args.findIndex(function (arg) {
     return arg === '-l'
   })
-  var longFormat = lFlagIndex !== -1
+  let longFormat = lFlagIndex !== -1
   if (longFormat) {
     args.splice(lFlagIndex, 1)
   }
 
-  var laFlagIndex = args.findIndex(function (arg) {
+  const laFlagIndex = args.findIndex(function (arg) {
     return arg === '-la'
   })
   if (laFlagIndex !== -1) {
@@ -35,7 +35,7 @@ function ls (env, args) {
     args.splice(laFlagIndex, 1)
   }
 
-  var alFlagIndex = args.findIndex(function (arg) {
+  const alFlagIndex = args.findIndex(function (arg) {
     return arg === '-al'
   })
   if (alFlagIndex !== -1) {
@@ -63,9 +63,9 @@ function ls (env, args) {
     }
     return Promise.all(listing.map(function (filePath) {
       return env.system.stat(base + '/' + filePath).then(function (stats) {
-        var date = new Date(stats.modified)
-        var timestamp = date.toDateString().slice(4, 10) + ' ' + date.toTimeString().slice(0, 5)
-        var type = stats.type
+        const date = new Date(stats.modified)
+        const timestamp = date.toDateString().slice(4, 10) + ' ' + date.toTimeString().slice(0, 5)
+        let type = stats.type
         // Manual aligning for now
         if (type === 'dir') {
           type += ' '
@@ -90,16 +90,16 @@ function ls (env, args) {
         return path + ':\n' + formattedListing
       })
   }))
-  .then(function (listings) {
-    return listings.join('\n\n')
-  })
-  .then(function (result) {
-    env.output(result)
-    env.exit()
-  }, function (err) {
-    env.output('ls: ' + err)
-    env.exit(2)
-  })
+    .then(function (listings) {
+      return listings.join('\n\n')
+    })
+    .then(function (result) {
+      env.output(result)
+      env.exit()
+    }, function (err) {
+      env.output('ls: ' + err)
+      env.exit(2)
+    })
 }
 
 module.exports = ls

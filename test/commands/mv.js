@@ -1,5 +1,5 @@
-var test = require('tape')
-var bashEmulator = require('../../src')
+const test = require('tape')
+const bashEmulator = require('../../src')
 
 function emulator () {
   return bashEmulator({
@@ -52,7 +52,7 @@ test('mv', function (t) {
     t.equal(output, 'nofile: No such file or directory', 'fail if file non-existent')
   })
 
-  var mul1 = emulator()
+  const mul1 = emulator()
   mul1.run('mv README DONTREADME')
     .then(function (output) {
       t.equal(output, '', 'no output on success')
@@ -66,7 +66,7 @@ test('mv', function (t) {
       t.equal(output, 'README: No such file or directory', 'old file is gone')
     })
 
-  var mul2 = emulator()
+  const mul2 = emulator()
   mul2.run('mv README etc')
     .then(function (output) {
       t.equal(output, '', 'no output on success')
@@ -80,7 +80,7 @@ test('mv', function (t) {
       t.equal(output, 'README: No such file or directory', 'old file is gone')
     })
 
-  var mul3 = emulator()
+  const mul3 = emulator()
   mul3.run('mv README err.log')
     .then(function (output) {
       t.equal(output, '', 'no output on success')
@@ -101,7 +101,7 @@ test('mv', function (t) {
     t.equal(output, 'mv: target ‘/non/existent’ is not a directory', 'fail if moving multiple files to missing directory')
   })
 
-  var mul4 = emulator()
+  const mul4 = emulator()
   mul4.run('mv README err.log /etc')
     .then(function (output) {
       t.equal(output, '', 'move multiple files to dir')
@@ -123,7 +123,7 @@ test('mv', function (t) {
       t.equal(output, 'read this first', 'new README exists')
     })
 
-  var mul5 = emulator()
+  const mul5 = emulator()
   mul5.run('mv README non-existent /etc')
     .then(null, function (output) {
       t.equal(output, 'non-existent: No such file or directory', 'with multiple files and one failing others are still moved')
@@ -140,7 +140,7 @@ test('mv', function (t) {
       t.equal(output, 'read this first', 'new README exists')
     })
 
-  var mul6 = emulator()
+  const mul6 = emulator()
   mul6.run('mv -n README err.log')
     .then(function (output) {
       t.equal(output, '', 'no output on success')
@@ -153,7 +153,7 @@ test('mv', function (t) {
       t.equal(output, 'some err', 'destination file unchanged')
     })
 
-  var mul7 = emulator()
+  const mul7 = emulator()
   mul7.run('mv -n README new-location')
     .then(function (output) {
       t.equal(output, '', 'no output on success')
@@ -166,7 +166,7 @@ test('mv', function (t) {
       t.equal(output, 'read this first', 'create new file')
     })
 
-  var mul8 = emulator()
+  const mul8 = emulator()
   mul8.run('mv somedir othername')
     .then(function (output) {
       t.equal(output, '', 'no output on success')

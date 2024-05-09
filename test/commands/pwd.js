@@ -1,10 +1,10 @@
-var test = require('tape')
-var bashEmulator = require('../../src')
+const test = require('tape')
+const bashEmulator = require('../../src')
 
 test('pwd', function (t) {
   t.plan(1)
 
-  var emulator = bashEmulator({
+  const emulator = bashEmulator({
     workingDirectory: '/'
   })
 
@@ -12,4 +12,3 @@ test('pwd', function (t) {
     t.equal(dir, '/', 'returns working directory')
   })
 })
-

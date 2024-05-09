@@ -1,12 +1,12 @@
-var test = require('tape')
-var bashEmulator = require('../../src')
+const test = require('tape')
+const bashEmulator = require('../../src')
 
 test('touch', function (t) {
   t.plan(8)
 
-  var fileInitTime = Date.now()
+  const fileInitTime = Date.now()
 
-  var emulator = bashEmulator({
+  const emulator = bashEmulator({
     workingDirectory: '/',
     fileSystem: {
       '/': {

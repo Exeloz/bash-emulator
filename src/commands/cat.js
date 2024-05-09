@@ -1,30 +1,30 @@
-var lineNumber = require('../utils/lineNumber')
+const lineNumber = require('../utils/lineNumber')
 
-var numColumnWidth = 6
-var numberFlag = '-n'
+const numColumnWidth = 6
+const numberFlag = '-n'
 
 function cat (env, args) {
   // Ignore command name
   args.shift()
 
-  var exitCode = 0
-  var numberFlagIndex = args.findIndex(function (arg) {
+  let exitCode = 0
+  const numberFlagIndex = args.findIndex(function (arg) {
     return arg === numberFlag
   })
-  var showNumbers = numberFlagIndex !== -1
+  const showNumbers = numberFlagIndex !== -1
   if (showNumbers) {
     args.splice(numberFlagIndex, 1)
   }
 
   if (!args.length) {
-    var num = 1
+    let num = 1
     return {
       input: function (str) {
         str.split('\n').forEach(function (l) {
           if (!l) {
             return
           }
-          var line = showNumbers ? lineNumber.addLineNumber(numColumnWidth, num, l) : l
+          const line = showNumbers ? lineNumber.addLineNumber(numColumnWidth, num, l) : l
           num++
           env.output(line + '\n')
         })
@@ -43,7 +43,7 @@ function cat (env, args) {
       })
     }))
     .then(function (contents) {
-      var lines = showNumbers ? lineNumber.addLineNumbers(numColumnWidth, contents) : contents
+      const lines = showNumbers ? lineNumber.addLineNumbers(numColumnWidth, contents) : contents
       lines.forEach(function (line) {
         env.output(line + '\n')
       })

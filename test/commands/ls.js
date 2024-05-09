@@ -1,10 +1,10 @@
-var test = require('tape')
-var bashEmulator = require('../../src')
+const test = require('tape')
+const bashEmulator = require('../../src')
 
 test('ls', function (t) {
   t.plan(10)
 
-  var emulator = bashEmulator({
+  const emulator = bashEmulator({
     history: [],
     user: 'test',
     workingDirectory: '/',
@@ -47,7 +47,7 @@ test('ls', function (t) {
   })
 
   emulator.run('ls home /').then(function (output) {
-    var listing =
+    const listing =
       '/:' +
       '\n' +
       'etc home' +
@@ -72,7 +72,7 @@ test('ls', function (t) {
   })
 
   emulator.run('ls -l /').then(function (output) {
-    var listing =
+    const listing =
       'total 2' +
       '\n' +
       'dir   Jun 27 17:30  etc' +
@@ -86,7 +86,7 @@ test('ls', function (t) {
   })
 
   emulator.run('ls -l -a /home/test').then(function (output) {
-    var listing =
+    const listing =
       'total 2' +
       '\n' +
       'file  May 14 07:10  .secret' +
@@ -100,7 +100,7 @@ test('ls', function (t) {
   })
 
   emulator.run('ls -la /home/test').then(function (output) {
-    var listing =
+    const listing =
       'total 2' +
       '\n' +
       'file  May 14 07:10  .secret' +
@@ -114,7 +114,7 @@ test('ls', function (t) {
   })
 
   emulator.run('ls -al /home/test').then(function (output) {
-    var listing =
+    const listing =
       'total 2' +
       '\n' +
       'file  May 14 07:10  .secret' +
@@ -127,4 +127,3 @@ test('ls', function (t) {
     t.equal(output, listing, 'combine -a and -l')
   })
 })
-

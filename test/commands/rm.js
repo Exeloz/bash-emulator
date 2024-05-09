@@ -1,10 +1,10 @@
-var test = require('tape')
-var bashEmulator = require('../../src')
+const test = require('tape')
+const bashEmulator = require('../../src')
 
 test('rm', function (t) {
   t.plan(9)
 
-  var emulator = bashEmulator({
+  const emulator = bashEmulator({
     workingDirectory: '/',
     fileSystem: {
       '/': {

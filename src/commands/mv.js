@@ -1,14 +1,14 @@
-var SINGLE_COPY = 'SINGLE_COPY'
+const SINGLE_COPY = 'SINGLE_COPY'
 
 function mv (env, args) {
   // Ignore command name
   args.shift()
 
-  var nFlagIndex = args.findIndex(function (arg) {
+  const nFlagIndex = args.findIndex(function (arg) {
     return arg === '-n'
   })
 
-  var noClobber = nFlagIndex !== -1
+  const noClobber = nFlagIndex !== -1
   if (noClobber) {
     args.splice(nFlagIndex, 1)
   }
@@ -24,8 +24,8 @@ function mv (env, args) {
     return
   }
 
-  var destination = args[args.length - 1]
-  var files = args.slice(0, -1)
+  const destination = args[args.length - 1]
+  const files = args.slice(0, -1)
 
   function rename (file, dest) {
     if (noClobber) {
@@ -57,9 +57,9 @@ function mv (env, args) {
         return rename(files[0], destination)
       }
       return Promise.all(files.map(function (file) {
-        var filePathParts = file.split('/')
-        var fileName = filePathParts[filePathParts.length - 1]
-        var dest = destination + '/' + fileName
+        const filePathParts = file.split('/')
+        const fileName = filePathParts[filePathParts.length - 1]
+        const dest = destination + '/' + fileName
         return rename(file, dest)
       }))
     })

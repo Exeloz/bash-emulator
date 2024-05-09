@@ -2,10 +2,10 @@ function rm (env, args) {
   // Ignore command name
   args.shift()
 
-  var rFlagIndex = args.findIndex(function (arg) {
+  const rFlagIndex = args.findIndex(function (arg) {
     return arg.toLowerCase() === '-r'
   })
-  var recursive = rFlagIndex !== -1
+  const recursive = rFlagIndex !== -1
   if (recursive) {
     args.splice(rFlagIndex, 1)
   }
@@ -20,7 +20,7 @@ function rm (env, args) {
     .all(args.map(function (path) {
       return env.system.stat(path)
         .then(function (stats) {
-          var isDir = stats.type === 'dir'
+          const isDir = stats.type === 'dir'
           if (isDir && !recursive) {
             return Promise.reject('rm: cannot remove ‘' + path + '’: Is a directory')
           }
