@@ -1,0 +1,48 @@
+html,
+body {
+  color: white;
+  font-size: 115%;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body,
+#input {
+  background: black;
+  font-family: monospace;
+  line-height: 120%;
+}
+
+#output {
+  white-space: pre-wrap;
+}
+
+#input {
+  width: calc(
+    90% - 20px - var(--prefix-width)
+  );
+  border: none;
+  font-size: inherit;
+}
+
+#input_prefix {
+  width: fit-content;
+}
+
+:root {
+  --prefix-width: 0px; 
+}
+#input:focus {
+  outline: none;
+}
+
+#input,
+.input-wrap {
+  color: lime;
+}
+
+.error {
+  color: red;
+}
