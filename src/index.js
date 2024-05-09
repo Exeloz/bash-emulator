@@ -9,7 +9,8 @@ function bashEmulator (initialState) {
   const completion = {}
 
   function getPath (path) {
-    return joinPaths(state.workingDirectory, path)
+    const homePath = '/home/' + state.user
+    return joinPaths(state.workingDirectory, path.replace('~', homePath))
   }
 
   function parentExists (path) {
