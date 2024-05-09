@@ -28,11 +28,20 @@
       }
 
       #input {
-        width: 90%;
+        width: calc(
+          90% - 20px - var(--prefix-width)
+        );
         border: none;
         font-size: inherit;
       }
 
+      #input_prefix {
+        width: fit-content;
+      }
+
+      :root {
+        --prefix-width: 0px; 
+      }
       #input:focus {
         outline: none;
       }
@@ -51,7 +60,7 @@
     <div id="output"></div>
 
     <div class="input-wrap">
-      <span>$</span>
+      <span id="input_prefix">$</span>
       <input id="input" type="text" autofocus />
     </div>
 
@@ -85,7 +94,7 @@
         },
       });
 
-      attachEventListeners(document, emulator)
+      attachEventListeners(document, emulator);
 
       emulator.commands.clear = function (env) {
         output.innerHTML = "";

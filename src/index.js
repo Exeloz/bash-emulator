@@ -235,6 +235,10 @@ function bashEmulator (initialState) {
       })
     },
 
+    getUser: function () {
+      return Promise.resolve(state.user)
+    },
+
     getHistory: function () {
       return Promise.resolve(state.history)
     },
