@@ -258,7 +258,7 @@ function bashEmulator (initialState) {
     },
 
     completeDown: function (input) {
-      if (input !== completion.input || !completion.index) {
+      if (input !== completion.input || completion.index < 0) {
         return Promise.resolve(undefined)
       }
       completion.index--
