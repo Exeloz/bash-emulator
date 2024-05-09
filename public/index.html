@@ -24,7 +24,7 @@
       }
 
       #output {
-        white-space: pre;
+        white-space: pre-wrap;
       }
 
       #input {
@@ -149,11 +149,11 @@
           e.preventDefault();
           console.log(`ctrl: ${e.which}`);
           if (e.which === PLUS) {
-            var currentSize = parseFloat(getComputedStyle(output).fontSize);
-            output.style.fontSize = currentSize * 1.1 + "px";
+            var currentSize = parseFloat(getComputedStyle(document.body).fontSize);
+            document.body.style.fontSize = currentSize * 1.1 + "px";
           } else if (e.which === MINUS) {
-            var currentSize = parseFloat(getComputedStyle(output).fontSize);
-            output.style.fontSize = Math.max(currentSize * 0.9, 8) + "px";
+            var currentSize = parseFloat(getComputedStyle(document.body).fontSize);
+            document.body.style.fontSize = Math.max(currentSize * 0.9, 8) + "px";
           }
         }
         if (e.which === UP || e.which === DOWN) {
