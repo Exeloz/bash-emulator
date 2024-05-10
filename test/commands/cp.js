@@ -10,34 +10,34 @@ test('cp', function (t) {
     workingDirectory: '/',
     fileSystem: {
       '/': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/a': {
-        type: 'file',
+        type: FileType.File,
         modified: Date.now(),
         content: 'aaa'
       },
       '/b': {
-        type: 'file',
+        type: FileType.File,
         modified: Date.now(),
         content: 'bbb'
       },
       '/c': {
-        type: 'file',
+        type: FileType.File,
         modified: Date.now(),
         content: 'ccc'
       },
       '/d': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/e': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/e/subdir': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       }
     }

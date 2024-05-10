@@ -8,29 +8,29 @@ function emulator () {
     workingDirectory: '/',
     fileSystem: {
       '/': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/etc': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/README': {
-        type: 'file',
+        type: FileType.File,
         modified: Date.now(),
         content: 'read this first'
       },
       '/err.log': {
-        type: 'file',
+        type: FileType.File,
         modified: Date.now(),
         content: 'some err'
       },
       '/somedir': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/somedir/subdir': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       }
     }

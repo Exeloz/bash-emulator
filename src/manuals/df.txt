@@ -77,7 +77,7 @@ OPTIONS
        of 1000).  Binary prefixes can be used, too: KiB=K, MiB=M, and so on.
 
        FIELD_LIST  is  a comma-separated list of columns to be included.  Valid field names are: 'source', 'fstype', 'itotal', 'iused', 'iavail', 'ip‐
-       cent', 'size', 'used', 'avail', 'pcent', 'file' and 'target' (see info page).
+       cent', 'size', 'used', 'avail', 'pcent', FileType.File and 'target' (see info page).
 
 AUTHOR
        Written by Torbjorn Granlund, David MacKenzie, and Paul Eggert.

@@ -2,6 +2,8 @@ require('array.prototype.findindex')
 require('string.prototype.startswith')
 require('string.prototype.includes')
 require('string.prototype.repeat')
+const FileType = require('./files/fileTypes');
+
 const commands = require('./commands')
 
 function bashEmulator (initialState) {
@@ -17,7 +19,7 @@ function bashEmulator (initialState) {
     const parentPath = getPath(path).split('/').slice(0, -1).join('/')
 
     return emulator.stat(parentPath).then(function (stats) {
-      if (stats.type === 'dir') {
+      if (stats.type === FileType.Dir) {
         return Promise.resolve()
       }
 
@@ -121,7 +123,7 @@ function bashEmulator (initialState) {
       if (!state.fileSystem[filePath]) {
         return Promise.reject(arg + ': No such file or directory')
       }
-      if (state.fileSystem[filePath].type !== 'file') {
+      if (state.fileSystem[filePath].type !== FileType.File) {
         return Promise.reject(arg + ': Is a directory')
       }
       return Promise.resolve(state.fileSystem[filePath].content)
@@ -170,7 +172,7 @@ function bashEmulator (initialState) {
         .then(function () {
           const dirPath = getPath(path)
           state.fileSystem[dirPath] = {
-            type: 'dir',
+            type: FileType.Dir,
             modified: Date.now()
           }
         })
@@ -188,7 +190,7 @@ function bashEmulator (initialState) {
       return parentExists(path).then(function () {
         const filePath = getPath(path)
         return emulator.stat(path).then(function (stats) {
-          if (stats.type !== 'file') {
+          if (stats.type !== FileType.File) {
             return Promise.reject(filePath + ': Is a folder')
           }
           const oldContent = state.fileSystem[filePath].content
@@ -197,7 +199,7 @@ function bashEmulator (initialState) {
         }, function () {
           // file doesnt exist: write
           state.fileSystem[filePath] = {
-            type: 'file',
+            type: FileType.File,
             modified: Date.now(),
             content
           }
@@ -292,15 +294,15 @@ function defaultState () {
     history: [],
     fileSystem: {
       '/': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/home': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/home/user': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       }
     },

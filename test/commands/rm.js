@@ -8,43 +8,43 @@ test('rm', function (t) {
     workingDirectory: '/',
     fileSystem: {
       '/': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/file1': {
-        type: 'file',
+        type: FileType.File,
         modified: Date.now(),
         content: ''
       },
       '/file2': {
-        type: 'file',
+        type: FileType.File,
         modified: Date.now(),
         content: ''
       },
       '/file3': {
-        type: 'file',
+        type: FileType.File,
         modified: Date.now(),
         content: ''
       },
       '/file4': {
-        type: 'file',
+        type: FileType.File,
         modified: Date.now(),
         content: ''
       },
       '/somedir': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/otherdir': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/otherdir/sub': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/moredir': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       }
     }

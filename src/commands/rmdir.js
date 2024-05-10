@@ -12,7 +12,7 @@ function rmdir (env, args) {
     .all(args.map(function (path) {
       return env.system.stat(path)
         .then(function (stats) {
-          if (stats.type !== 'dir') {
+          if (stats.type !== FileType.Dir) {
             return Promise.reject('rmdir: cannot remove ‘' + path + '’: Not a directory')
           }
         }, function () {})

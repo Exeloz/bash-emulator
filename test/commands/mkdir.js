@@ -8,7 +8,7 @@ test('mkdir', function (t) {
     workingDirectory: '/',
     fileSystem: {
       '/': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       }
     }
@@ -52,6 +52,6 @@ test('mkdir', function (t) {
       return emulator.stat('somedir')
     })
     .then(function (stat) {
-      t.equal(stat.type, 'dir', 'create at existing location')
+      t.equal(stat.type, FileType.Dir, 'create at existing location')
     })
 })

@@ -1,7 +1,7 @@
 const test = require('tape')
 const bashEmulator = require('../../src')
 
-test('cd', function (t) {
+test('man', function (t) {
   t.plan(3)
 
   const emulator = bashEmulator({

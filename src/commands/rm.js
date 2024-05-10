@@ -20,7 +20,7 @@ function rm (env, args) {
     .all(args.map(function (path) {
       return env.system.stat(path)
         .then(function (stats) {
-          const isDir = stats.type === 'dir'
+          const isDir = stats.type === FileType.Dir
           if (isDir && !recursive) {
             return Promise.reject('rm: cannot remove ‘' + path + '’: Is a directory')
           }

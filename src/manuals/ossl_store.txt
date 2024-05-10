@@ -19,7 +19,7 @@ DESCRIPTION
    URI schemes and loaders
        Support for a URI scheme is called a STORE "loader", and can be added dynamically from the calling application or from a loadable engine.
 
-       Support for the 'file' scheme is built into "libcrypto".  See ossl_store-file(7) for more information.
+       Support for the FileType.File scheme is built into "libcrypto".  See ossl_store-file(7) for more information.
 
    UI_METHOD and pass phrases
        The OSS_STORE API does nothing to enforce any specific format or encoding on the pass phrase that the UI_METHOD provides.  However, the pass

@@ -10,16 +10,16 @@ test('touch', function (t) {
     workingDirectory: '/',
     fileSystem: {
       '/': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/file.txt': {
-        type: 'file',
+        type: FileType.File,
         modified: fileInitTime,
         content: 'first'
       },
       '/file2.txt': {
-        type: 'file',
+        type: FileType.File,
         modified: fileInitTime,
         content: 'first'
       }
