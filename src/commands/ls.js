@@ -1,105 +1,115 @@
-// NOTE: No support for files yet
-
 const disclaimer =
-  '\n' +
-  'The output here is limited.' +
-  '\n' +
-  'On a real system you would also see file permissions, user, group, block size and more.'
+  "\n" +
+  "The output here is limited." +
+  "\n" +
+  "On a real system you would also see file permissions, user, group, block size and more.";
 
-function ls (env, args) {
-  // Ignore command name
-  args.shift()
+function ls(env, args) {
+  
+  args.shift();
 
-  const aFlagIndex = args.findIndex(function (arg) {
-    return arg === '-a'
-  })
-  let showHidden = aFlagIndex !== -1
-  if (showHidden) {
-    args.splice(aFlagIndex, 1)
+  const lsFlags = {
+    a: {
+      description: "Show hidden files",
+      handler: (listing) => listing, 
+    },
+    l: {
+      description: "Use long listing format",
+      handler: (base, listing) =>
+        Promise.all(
+          listing.map((filePath) =>
+            env.system.stat(base + "/" + filePath).then((stats) => {
+              const date = new Date(stats.modified);
+              const timestamp =
+                date.toDateString().slice(4, 10) +
+                " " +
+                date.toTimeString().slice(0, 5);
+              let type = stats.type;
+              
+              if (type === "dir") {
+                type += " ";
+              }
+              return type + "  " + timestamp + "  " + stats.name;
+            })
+          )
+        ).then(
+          (lines) =>
+            "total " + lines.length + "\n" + lines.join("\n") + disclaimer
+        ),
+    },
+  };
+
+  function parseFlags(args) {
+    const flags = {};
+    args.forEach((arg) => {
+      if (!arg.startsWith('-')) {
+        return;
+      }
+  
+      for (let i = 1; i < arg.length; i++) {
+        const flag = arg[i];
+        if (!lsFlags[flag]) {
+          env.output(`ls: invalid flag: ${arg}`);
+          env.exit(2);
+          return;
+        }
+        flags[flag] = true;
+      }
+    });
+  
+    return flags;
   }
 
-  const lFlagIndex = args.findIndex(function (arg) {
-    return arg === '-l'
-  })
-  let longFormat = lFlagIndex !== -1
-  if (longFormat) {
-    args.splice(lFlagIndex, 1)
-  }
+  const flags = parseFlags(args);
 
-  const laFlagIndex = args.findIndex(function (arg) {
-    return arg === '-la'
-  })
-  if (laFlagIndex !== -1) {
-    showHidden = true
-    longFormat = true
-    args.splice(laFlagIndex, 1)
-  }
+  let showHidden = flags["a"] || false;
+  let longFormat = flags["l"] || false;
 
-  const alFlagIndex = args.findIndex(function (arg) {
-    return arg === '-al'
-  })
-  if (alFlagIndex !== -1) {
-    showHidden = true
-    longFormat = true
-    args.splice(alFlagIndex, 1)
+  function filterOutFlags(args) {
+    return args.filter(function (e) {
+      if (e.startsWith("-")) {
+        return false;
+      }
+      return true;
+    });
   }
+  args = filterOutFlags(args);
 
   if (!args.length) {
-    args.push('.')
+    args.push(".");
   }
 
-  function excludeHidden (listing) {
-    if (showHidden) {
-      return listing
-    }
-    return listing.filter(function (item) {
-      return item[0] !== '.'
-    })
+  function excludeHidden(listing) {
+    return showHidden ? listing : listing.filter((item) => item[0] !== ".");
   }
 
-  function formatListing (base, listing) {
+  function formatListing(base, listing) {
     if (!longFormat) {
-      return Promise.resolve(listing.join(' '))
+      return Promise.resolve(listing.join(" "));
     }
-    return Promise.all(listing.map(function (filePath) {
-      return env.system.stat(base + '/' + filePath).then(function (stats) {
-        const date = new Date(stats.modified)
-        const timestamp = date.toDateString().slice(4, 10) + ' ' + date.toTimeString().slice(0, 5)
-        let type = stats.type
-        // Manual aligning for now
-        if (type === 'dir') {
-          type += ' '
-        }
-        return type + '  ' + timestamp + '  ' + stats.name
-      })
-    })).then(function (lines) {
-      return 'total ' + lines.length + '\n' + lines.join('\n') + disclaimer
-    })
+    return lsFlags["l"].handler(base, listing); 
   }
 
-  Promise.all(args.sort().map(function (path) {
-    return env.system.readDir(path)
-      .then(excludeHidden)
-      .then(function (listing) {
-        return formatListing(path, listing)
-      })
-      .then(function (formattedListing) {
-        if (args.length === 1) {
-          return formattedListing
-        }
-        return path + ':\n' + formattedListing
-      })
-  }))
-    .then(function (listings) {
-      return listings.join('\n\n')
+  Promise.all(
+    args.sort().map((path) =>
+      env.system
+        .readDir(path)
+        .then((listing) => excludeHidden(listing, showHidden))
+        .then((listing) => formatListing(path, listing))
+        .then((formattedListing) =>
+          args.length === 1 ? formattedListing : path + ":\n" + formattedListing
+        )
+    )
+  )
+    .then((listings) => listings.join("\n\n"))
+    .then((result) => {
+      env.output(result);
+      env.exit();
     })
-    .then(function (result) {
-      env.output(result)
-      env.exit()
-    }, function (err) {
-      env.output('ls: ' + err)
-      env.exit(2)
-    })
+    .catch((err) => {
+      env.output("ls: " + err);
+      env.exit(2);
+    });
 }
 
-module.exports = ls
+module.exports = ls;
