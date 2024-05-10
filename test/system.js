@@ -1,6 +1,5 @@
 const test = require('tape')
 const bashEmulator = require('../src')
-const FileType = require('../src/files/fileTypes');
 
 test('initialise', function (t) {
   t.plan(1)
@@ -19,15 +18,15 @@ test('initialise with state', function (t) {
     workingDirectory: '/home/test',
     fileSystem: {
       '/': {
-        type: FileType.Dir,
+        type: 'dir',
         modified: Date.now()
       },
       '/home': {
-        type: FileType.Dir,
+        type: 'dir',
         modified: Date.now()
       },
       '/home/test': {
-        type: FileType.Dir,
+        type: 'dir',
         modified: Date.now()
       }
     }
@@ -67,7 +66,7 @@ test('ignore whitespace', function (t) {
   bashEmulator({
     fileSystem: {
       '/home': {
-        type: FileType.Dir,
+        type: 'dir',
         modified: Date.now()
       }
     }
@@ -157,11 +156,11 @@ test('reading files', function (t) {
     workingDirectory: '/',
     fileSystem: {
       '/': {
-        type: FileType.Dir,
+        type: 'dir',
         modified: Date.now()
       },
       '/log.txt': {
-        type: FileType.File,
+        type: 'file',
         modified: Date.now(),
         content: 'some log'
       }
@@ -191,23 +190,23 @@ test('reading a directory\'s content', function (t) {
   const emulator = bashEmulator({
     fileSystem: {
       '/': {
-        type: FileType.Dir,
+        type: 'dir',
         modified: Date.now()
       },
       '/home': {
-        type: FileType.Dir,
+        type: 'dir',
         modified: Date.now()
       },
       '/home/user': {
-        type: FileType.Dir,
+        type: 'dir',
         modified: Date.now()
       },
       '/etc': {
-        type: FileType.Dir,
+        type: 'dir',
         modified: Date.now()
       },
       '/tmp.log': {
-        type: FileType.File,
+        type: 'file',
         modified: Date.now(),
         content: 'log'
       }
@@ -239,11 +238,11 @@ test('stat', function (t) {
     workingDirectory: '/',
     fileSystem: {
       '/': {
-        type: FileType.Dir,
+        type: 'dir',
         modified: now
       },
       '/text.md': {
-        type: FileType.File,
+        type: 'file',
         modified: now,
         content: 'Hey!'
       }
@@ -252,7 +251,7 @@ test('stat', function (t) {
 
   emulator.stat('/').then(function (stats) {
     t.equal(stats.name, '', 'returns name')
-    t.equal(stats.type, FileType.Dir, 'returns type')
+    t.equal(stats.type, 'dir', 'returns type')
     t.equal(stats.modified, now, 'returns modified time')
   })
 
@@ -262,7 +261,7 @@ test('stat', function (t) {
 
   emulator.stat('text.md').then(function (stats) {
     t.equal(stats.name, 'text.md', 'return filename')
-    t.equal(stats.type, FileType.File, 'returns filetype')
+    t.equal(stats.type, 'file', 'returns filetype')
     t.equal(stats.modified, now, 'return modified time')
   })
 })
@@ -274,11 +273,11 @@ test('createDir', function (t) {
     workingDirectory: '/',
     fileSystem: {
       '/': {
-        type: FileType.Dir,
+        type: 'dir',
         modified: Date.now()
       },
       '/existing': {
-        type: FileType.Dir,
+        type: 'dir',
         modified: Date.now()
       }
     }
@@ -290,7 +289,7 @@ test('createDir', function (t) {
     })
     .then(function (stat) {
       t.equal(stat.name, 'mydir', 'created directory with right name')
-      t.equal(stat.type, FileType.Dir, 'is a directory')
+      t.equal(stat.type, 'dir', 'is a directory')
     })
 
   emulator.createDir('/existing')
@@ -306,15 +305,15 @@ test('write', function (t) {
     workingDirectory: '/',
     fileSystem: {
       '/': {
-        type: FileType.Dir,
+        type: 'dir',
         modified: Date.now()
       },
       '/home': {
-        type: FileType.File,
+        type: 'file',
         modified: Date.now()
       },
       '/exists': {
-        type: FileType.File,
+        type: 'file',
         modified: Date.now(),
         content: '123'
       },
@@ -376,19 +375,19 @@ test('removing', function (t) {
     workingDirectory: '/',
     fileSystem: {
       '/': {
-        type: FileType.Dir,
+        type: 'dir',
         modified: Date.now()
       },
       '/home': {
-        type: FileType.Dir,
+        type: 'dir',
         modified: Date.now()
       },
       '/home/test': {
-        type: FileType.Dir,
+        type: 'dir',
         modified: Date.now()
       },
       '/log.txt': {
-        type: FileType.File,
+        type: 'file',
         modified: Date.now(),
         content: 'some log'
       }
@@ -423,16 +422,16 @@ test('copy', function (t) {
     workingDirectory: '/',
     fileSystem: {
       '/': {
-        type: FileType.Dir,
+        type: 'dir',
         modified: Date.now()
       },
       '/file.txt': {
-        type: FileType.File,
+        type: 'file',
         modified: Date.now(),
         content: ''
       },
       '/log.txt': {
-        type: FileType.File,
+        type: 'file',
         modified: Date.now(),
         content: 'some log'
       }

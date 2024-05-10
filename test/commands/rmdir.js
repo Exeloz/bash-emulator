@@ -8,36 +8,36 @@ test('rmdir', function (t) {
     workingDirectory: '/',
     fileSystem: {
       '/': {
-        type: FileType.Dir,
+        type: 'dir',
         modified: Date.now()
       },
       '/dir1': {
-        type: FileType.Dir,
+        type: 'dir',
         modified: Date.now()
       },
       '/dir2': {
-        type: FileType.Dir,
+        type: 'dir',
         modified: Date.now()
       },
       '/dir3': {
-        type: FileType.Dir,
+        type: 'dir',
         modified: Date.now()
       },
       '/dir4': {
-        type: FileType.Dir,
+        type: 'dir',
         modified: Date.now()
       },
       '/nonemptydir': {
-        type: FileType.Dir,
+        type: 'dir',
         modified: Date.now()
       },
       '/nonemptydir/file': {
-        type: FileType.File,
+        type: 'file',
         modified: Date.now(),
         content: ''
       },
       '/somefile': {
-        type: FileType.File,
+        type: 'file',
         modified: Date.now(),
         content: ''
       }

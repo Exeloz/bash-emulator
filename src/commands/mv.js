@@ -42,7 +42,7 @@ function mv (env, args) {
 
   env.system.stat(destination)
     .then(function (stats) {
-      if (stats.type !== FileType.Dir) {
+      if (stats.type !== 'dir') {
         return Promise.reject()
       }
     })

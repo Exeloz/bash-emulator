@@ -28,7 +28,7 @@ function cp (env, args) {
 
   function copy (file, dest) {
     return env.system.stat(file).then(function (stats) {
-      if (stats.type === FileType.Dir && !isRecursive) {
+      if (stats.type === 'dir' && !isRecursive) {
         return Promise.reject('cp: omitting directory ‘' + file + '’')
       }
       return env.system.copy(file, dest)
@@ -37,7 +37,7 @@ function cp (env, args) {
 
   env.system.stat(destination)
     .then(function (stats) {
-      if (stats.type !== FileType.Dir) {
+      if (stats.type !== 'dir') {
         return Promise.reject()
       }
     })

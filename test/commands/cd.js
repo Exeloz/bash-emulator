@@ -10,15 +10,15 @@ test('cd', function (t) {
     workingDirectory: '/',
     fileSystem: {
       '/': {
-        type: FileType.Dir,
+        type: 'dir',
         modified: Date.now()
       },
       '/home': {
-        type: FileType.Dir,
+        type: 'dir',
         modified: Date.now()
       },
       '/home/test': {
-        type: FileType.Dir,
+        type: 'dir',
         modified: Date.now()
       }
     }

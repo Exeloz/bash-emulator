@@ -10,28 +10,28 @@ test('ls', function (t) {
     workingDirectory: '/',
     fileSystem: {
       '/': {
-        type: FileType.Dir,
+        type: 'dir',
         modified: Date.now()
       },
       '/etc': {
-        type: FileType.Dir,
+        type: 'dir',
         modified: new Date('Jun 27 2016 17:30').getTime()
       },
       '/home': {
-        type: FileType.Dir,
+        type: 'dir',
         modified: new Date('Jul 23 2016 13:47').getTime()
       },
       '/home/test': {
-        type: FileType.Dir,
+        type: 'dir',
         modified: Date.now()
       },
       '/home/test/README': {
-        type: FileType.File,
+        type: 'file',
         modified: new Date('Jan 01 2016 03:35').getTime(),
         content: 'read this first'
       },
       '/home/test/.secret': {
-        type: FileType.File,
+        type: 'file',
         modified: new Date('May 14 2016 07:10').getTime(),
         content: 'this file is hidden'
       }

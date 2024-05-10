@@ -8,17 +8,17 @@ test('cat', function (t) {
     workingDirectory: '/',
     fileSystem: {
       '/1.txt': {
-        type: FileType.File,
+        type: 'file',
         modified: Date.now(),
         content: 'first'
       },
       '/2.txt': {
-        type: FileType.File,
+        type: 'file',
         modified: Date.now(),
         content: 'second'
       },
       '/3.txt': {
-        type: FileType.File,
+        type: 'file',
         modified: Date.now(),
         content: 'third'
       }
