@@ -545,3 +545,16 @@ test('run with pipes', function (t) {
     t.equal(output, '/home/user\n', 'pipes ignore whitespace')
   })
 })
+
+test('User related', function (t) {
+  t.plan(1)
+
+  const emulator = bashEmulator({
+    user: 'test'
+  })
+
+  emulator.getUser()
+    .then(function (user) {
+      t.equal(user, 'test', 'User is correctly found')
+    })
+})
