@@ -5,22 +5,19 @@
 
     <title>TryBash Emulator</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div id="output"></div>
 
     <div class="input-wrap">
-      <span id="input_prefix">$</span>
+      <span id="inputPrefix">$</span>
       <input id="input" type="text" autofocus />
     </div>
 
     <script src="bundle.min.js"></script>
     <script>
-      var emulator = bashEmulator({
-        workingDirectory: "/",
-        fileSystem: {
-          "/": {
+      let fs = { "/": {
             type: "dir",
             modified: Date.now(),
           },
@@ -41,9 +38,14 @@
           "/home/user": {
             type: "dir",
             modified: Date.now(),
-          },
-        },
-      });
+          }}
+
+      let emulator = bashEmulator({
+        workingDirectory: '/',
+        fileSystem: fs
+      })
+
+      document['emulator'] = emulator
 
       attachEventListeners(document, emulator);
 

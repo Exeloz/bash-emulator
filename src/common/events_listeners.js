@@ -1,5 +1,6 @@
 const completeCommand = require('./emulator_autocomplete')
 const adjustFontSize = require('./font_size_adjust')
+const run = require('./emulator_functions')
 
 const ENTER = 13
 const UP = 38
@@ -61,18 +62,17 @@ function handleCtrlKeyDown (e, element, emulator) {
 
 function addKeyUpEventListener (document, emulator) {
   const input = document.getElementById('input')
-  const output = document.getElementById('output')
 
   input.addEventListener('keyup', function (e) {
-    handleKeyUp(e, input, output)
+    handleKeyUp(e, input)
   })
 }
 
-function handleKeyUp (e, input, output) {
+function handleKeyUp (e, input) {
   if (e.which !== ENTER) {
     return
   }
-  run(input.value, output).then(function () {
+  run(input.value).then(function () {
     input.value = ''
     document.body.scrollTop = 10e6
   })

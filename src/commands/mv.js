@@ -1,4 +1,6 @@
 const SINGLE_COPY = 'SINGLE_COPY'
+const FileType = require('../utils/fileTypes')
+const BashError = require('../utils/errors')
 
 function mv (env, args) {
   // Ignore command name
@@ -42,13 +44,13 @@ function mv (env, args) {
 
   env.system.stat(destination)
     .then(function (stats) {
-      if (stats.type !== 'dir') {
-        return Promise.reject()
+      if (stats.type !== FileType.Dir) {
+        return Promise.reject(new BashError())
       }
     })
     .catch(function () {
       if (files.length !== 1) {
-        return Promise.reject('mv: target ‘' + destination + '’ is not a directory')
+        return Promise.reject(new BashError('mv: target ‘' + destination + '’ is not a directory'))
       }
       return SINGLE_COPY
     })

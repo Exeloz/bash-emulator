@@ -10,7 +10,7 @@ test('history', function (t) {
     .then(function () {
       return emulator.run('nonexistent cmd')
     })
-    .then(null, function () {
+    .catch(function () {
       return emulator.run('history')
     })
     .then(function (history) {

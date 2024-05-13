@@ -1,5 +1,6 @@
 const test = require('tape')
 const bashEmulator = require('../../src')
+const FileType = require('../../src/utils/fileTypes')
 
 test('cp', function (t) {
   t.plan(25)
@@ -10,52 +11,52 @@ test('cp', function (t) {
     workingDirectory: '/',
     fileSystem: {
       '/': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/a': {
-        type: 'file',
+        type: FileType.File,
         modified: Date.now(),
         content: 'aaa'
       },
       '/b': {
-        type: 'file',
+        type: FileType.File,
         modified: Date.now(),
         content: 'bbb'
       },
       '/c': {
-        type: 'file',
+        type: FileType.File,
         modified: Date.now(),
         content: 'ccc'
       },
       '/d': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/e': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/e/subdir': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       }
     }
   })
 
-  emulator.run('cp').then(null, function (output) {
+  emulator.run('cp').catch(function (output) {
     t.equal(output, 'cp: missing file operand', 'fail without args')
   })
 
-  emulator.run('cp somefile').then(null, function (output) {
+  emulator.run('cp somefile').catch(function (output) {
     t.equal(output, 'cp: missing destination file operand after ‘somefile’', 'fail without destination')
   })
 
-  emulator.run('cp nofile testdir').then(null, function (output) {
+  emulator.run('cp nofile testdir').catch(function (output) {
     t.equal(output, 'nofile: No such file or directory', 'fail if file non-existent')
   })
 
-  emulator.run('cp d testdir').then(null, function (output) {
+  emulator.run('cp d testdir').catch(function (output) {
     t.equal(output, 'cp: omitting directory ‘d’', 'fail copying a directory')
   })
 
@@ -98,11 +99,11 @@ test('cp', function (t) {
       t.equal(output, 'aaa', 'copy to directory')
     })
 
-  emulator.run('cp a b c').then(null, function (output) {
+  emulator.run('cp a b c').catch(function (output) {
     t.equal(output, 'cp: target ‘c’ is not a directory', 'fail if copying multiple files to file')
   })
 
-  emulator.run('cp a b /non/existent').then(null, function (output) {
+  emulator.run('cp a b /non/existent').catch(function (output) {
     t.equal(output, 'cp: target ‘/non/existent’ is not a directory', 'fail if copying multiple files to missing directory')
   })
 

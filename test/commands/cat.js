@@ -1,5 +1,6 @@
 const test = require('tape')
 const bashEmulator = require('../../src')
+const FileType = require('../../src/utils/fileTypes')
 
 test('cat', function (t) {
   t.plan(7)
@@ -8,17 +9,17 @@ test('cat', function (t) {
     workingDirectory: '/',
     fileSystem: {
       '/1.txt': {
-        type: 'file',
+        type: FileType.File,
         modified: Date.now(),
         content: 'first'
       },
       '/2.txt': {
-        type: 'file',
+        type: FileType.File,
         modified: Date.now(),
         content: 'second'
       },
       '/3.txt': {
-        type: 'file',
+        type: FileType.File,
         modified: Date.now(),
         content: 'third'
       }
@@ -33,7 +34,7 @@ test('cat', function (t) {
     t.equal(output, res, 'cats multiple files')
   })
 
-  emulator.run('cat nonexistent /1.txt').then(null, function (err) {
+  emulator.run('cat nonexistent /1.txt').catch(function (err) {
     const res =
       'cat: nonexistent: No such file or directory' +
       '\n' +

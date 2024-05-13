@@ -1,5 +1,6 @@
 const test = require('tape')
 const bashEmulator = require('../../src')
+const FileType = require('../../src/utils/fileTypes')
 
 test('cd', function (t) {
   t.plan(3)
@@ -10,15 +11,15 @@ test('cd', function (t) {
     workingDirectory: '/',
     fileSystem: {
       '/': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/home': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/home/test': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       }
     }
@@ -43,7 +44,7 @@ test('cd', function (t) {
     .then(function () {
       return emulator.run('cd nonexistent')
     })
-    .then(null, function (err) {
+    .catch(function (err) {
       t.equal(err, '/home/nonexistent: No such file or directory', 'error message')
     })
 })

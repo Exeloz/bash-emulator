@@ -1,5 +1,6 @@
 const test = require('tape')
 const bashEmulator = require('../../src')
+const FileType = require('../../src/utils/fileTypes')
 
 test('ls', function (t) {
   t.plan(10)
@@ -10,28 +11,28 @@ test('ls', function (t) {
     workingDirectory: '/',
     fileSystem: {
       '/': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/etc': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: new Date('Jun 27 2016 17:30').getTime()
       },
       '/home': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: new Date('Jul 23 2016 13:47').getTime()
       },
       '/home/test': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/home/test/README': {
-        type: 'file',
+        type: FileType.File,
         modified: new Date('Jan 01 2016 03:35').getTime(),
         content: 'read this first'
       },
       '/home/test/.secret': {
-        type: 'file',
+        type: FileType.File,
         modified: new Date('May 14 2016 07:10').getTime(),
         content: 'this file is hidden'
       }
@@ -59,7 +60,7 @@ test('ls', function (t) {
     t.equal(output, listing, 'list multiple')
   })
 
-  emulator.run('ls nonexistent').then(null, function (err) {
+  emulator.run('ls nonexistent').catch(function (err) {
     t.equal(err, 'ls: cannot access ‘nonexistent’: No such file or directory', 'missing dir')
   })
 

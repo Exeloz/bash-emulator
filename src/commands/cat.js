@@ -37,9 +37,9 @@ function cat (env, args) {
 
   Promise
     .all(args.map(function (path) {
-      return env.system.read(path).then(null, function (err) {
+      return env.system.read(path).catch(function (err) {
         exitCode = 1
-        return 'cat: ' + err
+        return 'cat: ' + err.message
       })
     }))
     .then(function (contents) {

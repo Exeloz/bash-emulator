@@ -3,6 +3,8 @@ require('string.prototype.startswith')
 require('string.prototype.includes')
 require('string.prototype.repeat')
 const commands = require('./commands')
+const FileType = require('./utils/fileTypes')
+const BashError = require('./utils/errors')
 
 function bashEmulator (initialState) {
   const state = createState(initialState)
@@ -17,11 +19,11 @@ function bashEmulator (initialState) {
     const parentPath = getPath(path).split('/').slice(0, -1).join('/')
 
     return emulator.stat(parentPath).then(function (stats) {
-      if (stats.type === 'dir') {
+      if (stats.type === FileType.Dir) {
         return Promise.resolve()
       }
 
-      return Promise.reject(parentPath + ': Is not a directory')
+      return Promise.reject(new BashError(parentPath + ': Is not a directory'))
     })
   }
 
@@ -45,11 +47,11 @@ function bashEmulator (initialState) {
       }
 
       if (!argsList[argsList.length - 1][0]) {
-        return Promise.reject('syntax error: unexpected end of file')
+        return Promise.reject(new BashError('syntax error: unexpected end of file'))
       }
 
       if (argsList.find(function (a) { return !a.length })) {
-        return Promise.reject("syntax error near unexpected token `|'")
+        return Promise.reject(new BashError("syntax error near unexpected token `|'"))
       }
 
       const nonExistent = argsList.filter(function (args) {
@@ -57,9 +59,9 @@ function bashEmulator (initialState) {
         return !commands[cmd]
       })
       if (nonExistent.length) {
-        return Promise.reject(nonExistent.map(function (args) {
+        return Promise.reject(new BashError(nonExistent.map(function (args) {
           return args[0] + ': command not found'
-        }).join('\n'))
+        }).join('\n')))
       }
 
       let result = ''
@@ -110,7 +112,7 @@ function bashEmulator (initialState) {
     changeDir: function (target) {
       const normalizedPath = getPath(target)
       if (!state.fileSystem[normalizedPath]) {
-        return Promise.reject(normalizedPath + ': No such file or directory')
+        return Promise.reject(new BashError(normalizedPath + ': No such file or directory'))
       }
       state.workingDirectory = normalizedPath
       return Promise.resolve()
@@ -119,10 +121,10 @@ function bashEmulator (initialState) {
     read: function (arg) {
       const filePath = getPath(arg)
       if (!state.fileSystem[filePath]) {
-        return Promise.reject(arg + ': No such file or directory')
+        return Promise.reject(new BashError(arg + ': No such file or directory'))
       }
-      if (state.fileSystem[filePath].type !== 'file') {
-        return Promise.reject(arg + ': Is a directory')
+      if (state.fileSystem[filePath].type !== FileType.File) {
+        return Promise.reject(new BashError(arg + ': Is a directory'))
       }
       return Promise.resolve(state.fileSystem[filePath].content)
     },
@@ -130,7 +132,7 @@ function bashEmulator (initialState) {
     readDir: function (path) {
       const dir = getPath(path)
       if (!state.fileSystem[dir]) {
-        return Promise.reject('cannot access ‘' + path + '’: No such file or directory')
+        return Promise.reject(new BashError('cannot access ‘' + path + '’: No such file or directory'))
       }
       const listing = Object.keys(state.fileSystem)
         .filter(function (path) {
@@ -149,7 +151,7 @@ function bashEmulator (initialState) {
     stat: function (path) {
       const filePath = getPath(path)
       if (!state.fileSystem[filePath]) {
-        return Promise.reject(path + ': No such file or directory')
+        return Promise.reject(new BashError(path + ': No such file or directory'))
       }
 
       const pathParts = filePath.split('/')
@@ -163,14 +165,14 @@ function bashEmulator (initialState) {
     createDir: function (path) {
       return emulator.stat(path)
         .then(function () {
-          return Promise.reject('cannot create directory \'' + path + '\': File exists')
+          return Promise.reject(new BashError('cannot create directory \'' + path + '\': File exists'))
         }, function () {
           return parentExists(path)
         })
         .then(function () {
           const dirPath = getPath(path)
           state.fileSystem[dirPath] = {
-            type: 'dir',
+            type: FileType.Dir,
             modified: Date.now()
           }
         })
@@ -181,15 +183,15 @@ function bashEmulator (initialState) {
         try {
           content = JSON.stringify(content)
         } catch (e) {
-          return Promise.reject(e)
+          return Promise.reject(new BashError(e))
         }
       }
 
       return parentExists(path).then(function () {
         const filePath = getPath(path)
         return emulator.stat(path).then(function (stats) {
-          if (stats.type !== 'file') {
-            return Promise.reject(filePath + ': Is a folder')
+          if (stats.type !== FileType.File) {
+            return Promise.reject(new BashError(filePath + ': Is a folder'))
           }
           const oldContent = state.fileSystem[filePath].content
           state.fileSystem[filePath].content = oldContent + content
@@ -197,7 +199,7 @@ function bashEmulator (initialState) {
         }, function () {
           // file doesnt exist: write
           state.fileSystem[filePath] = {
-            type: 'file',
+            type: FileType.File,
             modified: Date.now(),
             content
           }
@@ -208,7 +210,7 @@ function bashEmulator (initialState) {
     remove: function (path) {
       const filePath = getPath(path)
       if (!state.fileSystem[filePath]) {
-        return Promise.reject('cannot remove ‘' + path + '’: No such file or directory')
+        return Promise.reject(new BashError('cannot remove ‘' + path + '’: No such file or directory'))
       }
       Object.keys(state.fileSystem).forEach(function (key) {
         if (key.startsWith(filePath)) {
@@ -222,7 +224,7 @@ function bashEmulator (initialState) {
       const sourcePath = getPath(source)
       const destinationPath = getPath(destination)
       if (!state.fileSystem[sourcePath]) {
-        return Promise.reject(source + ': No such file or directory')
+        return Promise.reject(new BashError(source + ': No such file or directory'))
       }
       function renameAllSub (key) {
         if (key.startsWith(sourcePath)) {
@@ -292,15 +294,15 @@ function defaultState () {
     history: [],
     fileSystem: {
       '/': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/home': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/home/user': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       }
     },

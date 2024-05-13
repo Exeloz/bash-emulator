@@ -14,10 +14,10 @@ function completeCommand (direction, input, emulator) {
     if (completion) {
       input.value = completion
       input.setSelectionRange(completion.length, completion.length)
-    }else{
-      if (direction === DOWN){
+    } else {
+      if (direction === DOWN) {
         input.value = ''
-      }  
+      }
     }
   })
 }

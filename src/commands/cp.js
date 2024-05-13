@@ -1,4 +1,6 @@
 const SINGLE_COPY = 'SINGLE_COPY'
+const FileType = require('../utils/fileTypes')
+const BashError = require('../utils/errors')
 
 function cp (env, args) {
   // Ignore command name
@@ -28,8 +30,8 @@ function cp (env, args) {
 
   function copy (file, dest) {
     return env.system.stat(file).then(function (stats) {
-      if (stats.type === 'dir' && !isRecursive) {
-        return Promise.reject('cp: omitting directory ‘' + file + '’')
+      if (stats.type === FileType.Dir && !isRecursive) {
+        return Promise.reject(new BashError('cp: omitting directory ‘' + file + '’'))
       }
       return env.system.copy(file, dest)
     })
@@ -37,13 +39,13 @@ function cp (env, args) {
 
   env.system.stat(destination)
     .then(function (stats) {
-      if (stats.type !== 'dir') {
-        return Promise.reject()
+      if (stats.type !== FileType.Dir) {
+        return Promise.reject(new BashError())
       }
     })
     .catch(function () {
       if (files.length !== 1) {
-        return Promise.reject('cp: target ‘' + destination + '’ is not a directory')
+        return Promise.reject(new BashError('cp: target ‘' + destination + '’ is not a directory'))
       }
       return SINGLE_COPY
     })

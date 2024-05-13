@@ -1,5 +1,6 @@
 const test = require('tape')
 const bashEmulator = require('../src')
+const FileType = require('../src/utils/fileTypes')
 
 test('initialise', function (t) {
   t.plan(1)
@@ -18,15 +19,15 @@ test('initialise with state', function (t) {
     workingDirectory: '/home/test',
     fileSystem: {
       '/': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/home': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/home/test': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       }
     }
@@ -39,8 +40,8 @@ test('initialise with state', function (t) {
 test('run missing command', function (t) {
   t.plan(1)
 
-  bashEmulator().run('nonexistent').then(null, function (err) {
-    t.equals(err, 'nonexistent: command not found', 'error when running missing comand')
+  bashEmulator().run('nonexistent').catch(function (err) {
+    t.equals(err.message, 'nonexistent: command not found', 'error when running missing comand')
   })
 })
 
@@ -66,7 +67,7 @@ test('ignore whitespace', function (t) {
   bashEmulator({
     fileSystem: {
       '/home': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       }
     }
@@ -123,8 +124,8 @@ test('change working directory', function (t) {
     .then(function () {
       return emulator.changeDir('nonexistent')
     })
-    .then(null, function (err) {
-      t.equal(err, '/home/user/nonexistent: No such file or directory', 'cannot change to non-existent dir')
+    .catch(function (err) {
+      t.equal(err.message, '/home/user/nonexistent: No such file or directory', 'cannot change to non-existent dir')
     })
 })
 
@@ -156,23 +157,23 @@ test('reading files', function (t) {
     workingDirectory: '/',
     fileSystem: {
       '/': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/log.txt': {
-        type: 'file',
+        type: FileType.File,
         modified: Date.now(),
         content: 'some log'
       }
     }
   })
 
-  emulator.read('nonexistent').then(null, function (err) {
-    t.equal(err, 'nonexistent: No such file or directory', 'cannot read missing file')
+  emulator.read('nonexistent').catch(function (err) {
+    t.equal(err.message, 'nonexistent: No such file or directory', 'cannot read missing file')
   })
 
-  emulator.read('/').then(null, function (err) {
-    t.equal(err, '/: Is a directory', 'cannot read content of directory')
+  emulator.read('/').catch(function (err) {
+    t.equal(err.message, '/: Is a directory', 'cannot read content of directory')
   })
 
   emulator.read('/log.txt').then(function (content) {
@@ -190,23 +191,23 @@ test('reading a directory\'s content', function (t) {
   const emulator = bashEmulator({
     fileSystem: {
       '/': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/home': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/home/user': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/etc': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/tmp.log': {
-        type: 'file',
+        type: FileType.File,
         modified: Date.now(),
         content: 'log'
       }
@@ -225,8 +226,8 @@ test('reading a directory\'s content', function (t) {
     t.deepEqual(listing, ['etc', 'home', 'tmp.log'], 'lists in order')
   })
 
-  emulator.readDir('nonexistent').then(null, function (err) {
-    t.equal(err, 'cannot access ‘nonexistent’: No such file or directory', 'error for missing file')
+  emulator.readDir('nonexistent').catch(function (err) {
+    t.equal(err.message, 'cannot access ‘nonexistent’: No such file or directory', 'error for missing file')
   })
 })
 
@@ -238,11 +239,11 @@ test('stat', function (t) {
     workingDirectory: '/',
     fileSystem: {
       '/': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: now
       },
       '/text.md': {
-        type: 'file',
+        type: FileType.File,
         modified: now,
         content: 'Hey!'
       }
@@ -251,17 +252,17 @@ test('stat', function (t) {
 
   emulator.stat('/').then(function (stats) {
     t.equal(stats.name, '', 'returns name')
-    t.equal(stats.type, 'dir', 'returns type')
+    t.equal(stats.type, FileType.Dir, 'returns type')
     t.equal(stats.modified, now, 'returns modified time')
   })
 
-  emulator.stat('/nope').then(null, function (err) {
-    t.equal(err, '/nope: No such file or directory', 'returns error for nonexistent')
+  emulator.stat('/nope').catch(function (err) {
+    t.equal(err.message, '/nope: No such file or directory', 'returns error for nonexistent')
   })
 
   emulator.stat('text.md').then(function (stats) {
     t.equal(stats.name, 'text.md', 'return filename')
-    t.equal(stats.type, 'file', 'returns filetype')
+    t.equal(stats.type, FileType.File, 'returns filetype')
     t.equal(stats.modified, now, 'return modified time')
   })
 })
@@ -273,11 +274,11 @@ test('createDir', function (t) {
     workingDirectory: '/',
     fileSystem: {
       '/': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/existing': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       }
     }
@@ -289,12 +290,12 @@ test('createDir', function (t) {
     })
     .then(function (stat) {
       t.equal(stat.name, 'mydir', 'created directory with right name')
-      t.equal(stat.type, 'dir', 'is a directory')
+      t.equal(stat.type, FileType.Dir, 'is a directory')
     })
 
   emulator.createDir('/existing')
-    .then(null, function (err) {
-      t.equal(err, 'cannot create directory \'/existing\': File exists', 'cannot overwrite existing file')
+    .catch(function (err) {
+      t.equal(err.message, 'cannot create directory \'/existing\': File exists', 'cannot overwrite existing file')
     })
 })
 
@@ -305,15 +306,15 @@ test('write', function (t) {
     workingDirectory: '/',
     fileSystem: {
       '/': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/home': {
-        type: 'file',
+        type: FileType.File,
         modified: Date.now()
       },
       '/exists': {
-        type: 'file',
+        type: FileType.File,
         modified: Date.now(),
         content: '123'
       },
@@ -334,16 +335,16 @@ test('write', function (t) {
 
   emulator.write('touched', {
     toJSON: function () { throw Error('Nein') }
-  }).then(null, function () {
+  }).catch(function () {
     t.ok(true, 'content can not be unstringifyable')
   })
 
-  emulator.write('nonexistent/touched', 'by an angel').then(null, function (err) {
-    t.equal(err, '/nonexistent: No such file or directory', 'error if parent folder doesnt exist')
+  emulator.write('nonexistent/touched', 'by an angel').catch(function (err) {
+    t.equal(err.message, '/nonexistent: No such file or directory', 'error if parent folder doesnt exist')
   })
 
-  emulator.write('home/touched', 'by an angel').then(null, function (err) {
-    t.equal(err, '/home: Is not a directory', 'error if parent folder isnt a directory')
+  emulator.write('home/touched', 'by an angel').catch(function (err) {
+    t.equal(err.message, '/home: Is not a directory', 'error if parent folder isnt a directory')
   })
 
   emulator.write('/exists', '456')
@@ -354,8 +355,8 @@ test('write', function (t) {
       t.equals(content, '123456', 'appends content to existent file')
     })
 
-  emulator.write('/folderExists', '456').then(null, function (err) {
-    t.equals(err, '/folderExists: Is a folder', 'error if target file is a folder')
+  emulator.write('/folderExists', '456').catch(function (err) {
+    t.equals(err.message, '/folderExists: Is a folder', 'error if target file is a folder')
   })
 
   emulator.write('/new', '123')
@@ -375,40 +376,40 @@ test('removing', function (t) {
     workingDirectory: '/',
     fileSystem: {
       '/': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/home': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/home/test': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/log.txt': {
-        type: 'file',
+        type: FileType.File,
         modified: Date.now(),
         content: 'some log'
       }
     }
   })
 
-  emulator.remove('/nonexistent').then(null, function (err) {
-    t.equal(err, 'cannot remove ‘/nonexistent’: No such file or directory', 'cannot remove non-existent file')
+  emulator.remove('/nonexistent').catch(function (err) {
+    t.equal(err.message, 'cannot remove ‘/nonexistent’: No such file or directory', 'cannot remove non-existent file')
   })
 
   emulator.remove('log.txt').then(function () {
-    return emulator.remove('/log.txt').then(null, function () {
+    return emulator.remove('/log.txt').catch(function () {
       t.ok(true, 'file is deleted')
     })
   })
 
   emulator.remove('/home').then(function () {
-    emulator.remove('home').then(null, function () {
+    emulator.remove('home').catch(function () {
       t.ok(true, 'directory is deleted')
     })
-    emulator.remove('home/test').then(null, function () {
+    emulator.remove('home/test').catch(function () {
       t.ok(true, 'sub-directory is deleted')
     })
   })
@@ -422,16 +423,16 @@ test('copy', function (t) {
     workingDirectory: '/',
     fileSystem: {
       '/': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/file.txt': {
-        type: 'file',
+        type: FileType.File,
         modified: Date.now(),
         content: ''
       },
       '/log.txt': {
-        type: 'file',
+        type: FileType.File,
         modified: Date.now(),
         content: 'some log'
       }
@@ -447,12 +448,12 @@ test('copy', function (t) {
     })
   })
 
-  emulator.copy('nonexistent', 'log-archive.txt').then(null, function (output) {
-    t.equal(output, 'nonexistent: No such file or directory', 'fails if source does not exist')
+  emulator.copy('nonexistent', 'log-archive.txt').catch(function (output) {
+    t.equal(output.message, 'nonexistent: No such file or directory', 'fails if source does not exist')
   })
 
-  emulator.copy('file.txt', 'some/path').then(null, function (output) {
-    t.equal(output, '/some: No such file or directory', 'fails if destination is not in a directory')
+  emulator.copy('file.txt', 'some/path').catch(function (output) {
+    t.equal(output.message, '/some: No such file or directory', 'fails if destination is not in a directory')
   })
 })
 
@@ -524,16 +525,16 @@ test('run with pipes', function (t) {
     t.equal(output, '/home/user', 'pipe output is ignored if next has no stdin')
   })
 
-  emulator.run('| cat').then(null, function (err) {
-    t.equal(err, "syntax error near unexpected token `|'", 'pipe requires input')
+  emulator.run('| cat').catch(function (err) {
+    t.equal(err.message, "syntax error near unexpected token `|'", 'pipe requires input')
   })
 
-  emulator.run('cat | | cat').then(null, function (err) {
-    t.equal(err, "syntax error near unexpected token `|'", 'all pipes require input')
+  emulator.run('cat | | cat').catch(function (err) {
+    t.equal(err.message, "syntax error near unexpected token `|'", 'all pipes require input')
   })
 
-  emulator.run('cat |').then(null, function (err) {
-    t.equal(err, 'syntax error: unexpected end of file', 'pipe requires output')
+  emulator.run('cat |').catch(function (err) {
+    t.equal(err.message, 'syntax error: unexpected end of file', 'pipe requires output')
   })
 
   emulator.run('pwd|cat|cat').then(function (output) {

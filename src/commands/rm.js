@@ -1,5 +1,7 @@
+const FileType = require('../utils/fileTypes')
+const BashError = require('../utils/errors')
+
 function rm (env, args) {
-  // Ignore command name
   args.shift()
 
   const rFlagIndex = args.findIndex(function (arg) {
@@ -20,9 +22,9 @@ function rm (env, args) {
     .all(args.map(function (path) {
       return env.system.stat(path)
         .then(function (stats) {
-          const isDir = stats.type === 'dir'
+          const isDir = stats.type === FileType.Dir
           if (isDir && !recursive) {
-            return Promise.reject('rm: cannot remove ‘' + path + '’: Is a directory')
+            return Promise.reject(new BashError('rm: cannot remove ‘' + path + '’: Is a directory'))
           }
         }, function () {})
         .then(function () {

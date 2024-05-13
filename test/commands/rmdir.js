@@ -1,5 +1,6 @@
 const test = require('tape')
 const bashEmulator = require('../../src')
+const FileType = require('../../src/utils/fileTypes')
 
 test('rmdir', function (t) {
   t.plan(9)
@@ -8,36 +9,36 @@ test('rmdir', function (t) {
     workingDirectory: '/',
     fileSystem: {
       '/': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/dir1': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/dir2': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/dir3': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/dir4': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/nonemptydir': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/nonemptydir/file': {
-        type: 'file',
+        type: FileType.File,
         modified: Date.now(),
         content: ''
       },
       '/somefile': {
-        type: 'file',
+        type: FileType.File,
         modified: Date.now(),
         content: ''
       }
@@ -48,7 +49,7 @@ test('rmdir', function (t) {
     .then(function () {
       return emulator.stat('dir1')
     })
-    .then(null, function () {
+    .catch(function () {
       t.ok(true, 'remove directory')
     })
 
@@ -56,40 +57,40 @@ test('rmdir', function (t) {
     .then(function () {
       return emulator.stat('dir2')
     })
-    .then(null, function () {
+    .catch(function () {
       t.ok(true, 'remove first directory')
     })
     .then(function () {
       return emulator.stat('dir3')
     })
-    .then(null, function () {
+    .catch(function () {
       t.ok(true, 'remove second directory')
     })
 
-  emulator.run('rmdir').then(null, function (output) {
+  emulator.run('rmdir').catch(function (output) {
     t.equal(output, 'rmdir: missing operand', 'fail without argument')
   })
 
-  emulator.run('rmdir non/existent/path').then(null, function (err) {
+  emulator.run('rmdir non/existent/path').catch(function (err) {
     t.equal(err, 'cannot access ‘non/existent/path’: No such file or directory', 'fail with non-existent location')
   })
 
   emulator.run('rmdir dir4 non/existent/path somefile')
-    .then(null, function (err) {
+    .catch(function (err) {
       t.equal(err, 'cannot access ‘non/existent/path’: No such file or directory', 'fail with non-existent location')
     })
     .then(function () {
       return emulator.stat('dir4')
     })
-    .then(null, function () {
+    .catch(function () {
       t.ok(true, 'remove first directory')
     })
 
-  emulator.run('rmdir somefile').then(null, function (err) {
+  emulator.run('rmdir somefile').catch(function (err) {
     t.equal(err, 'rmdir: cannot remove ‘somefile’: Not a directory', 'Fail when trying to remove a file')
   })
 
-  emulator.run('rmdir nonemptydir').then(null, function (err) {
+  emulator.run('rmdir nonemptydir').catch(function (err) {
     t.equal(err, 'rmdir: failed to remove ‘nonemptydir’: Directory not empty', 'fail when trying to remove a non-empty directory')
   })
 })

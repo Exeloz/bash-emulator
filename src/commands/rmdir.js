@@ -1,5 +1,7 @@
+const FileType = require('../utils/fileTypes')
+const BashError = require('../utils/errors')
+
 function rmdir (env, args) {
-  // Ignore command name
   args.shift()
 
   if (!args.length) {
@@ -12,8 +14,8 @@ function rmdir (env, args) {
     .all(args.map(function (path) {
       return env.system.stat(path)
         .then(function (stats) {
-          if (stats.type !== 'dir') {
-            return Promise.reject('rmdir: cannot remove ‘' + path + '’: Not a directory')
+          if (stats.type !== FileType.Dir) {
+            return Promise.reject(new BashError('rmdir: cannot remove ‘' + path + '’: Not a directory'))
           }
         }, function () {})
         .then(function () {
@@ -21,7 +23,7 @@ function rmdir (env, args) {
         })
         .then(function (files) {
           if (files.length) {
-            return Promise.reject('rmdir: failed to remove ‘' + path + '’: Directory not empty')
+            return Promise.reject(new BashError('rmdir: failed to remove ‘' + path + '’: Directory not empty'))
           }
         })
         .then(function () {

@@ -1,5 +1,6 @@
 const test = require('tape')
 const bashEmulator = require('../../src')
+const FileType = require('../../src/utils/fileTypes')
 
 function emulator () {
   return bashEmulator({
@@ -8,29 +9,29 @@ function emulator () {
     workingDirectory: '/',
     fileSystem: {
       '/': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/etc': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/README': {
-        type: 'file',
+        type: FileType.File,
         modified: Date.now(),
         content: 'read this first'
       },
       '/err.log': {
-        type: 'file',
+        type: FileType.File,
         modified: Date.now(),
         content: 'some err'
       },
       '/somedir': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       },
       '/somedir/subdir': {
-        type: 'dir',
+        type: FileType.Dir,
         modified: Date.now()
       }
     }
@@ -40,15 +41,15 @@ function emulator () {
 test('mv', function (t) {
   t.plan(33)
 
-  emulator().run('mv').then(null, function (output) {
+  emulator().run('mv').catch(function (output) {
     t.equal(output, 'mv: missing file operand', 'fail without args')
   })
 
-  emulator().run('mv somefile').then(null, function (output) {
+  emulator().run('mv somefile').catch(function (output) {
     t.equal(output, 'mv: missing destination file operand after ‘somefile’', 'fail without destination')
   })
 
-  emulator().run('mv nofile testdir').then(null, function (output) {
+  emulator().run('mv nofile testdir').catch(function (output) {
     t.equal(output, 'nofile: No such file or directory', 'fail if file non-existent')
   })
 
@@ -62,8 +63,8 @@ test('mv', function (t) {
       t.equal(output, 'read this first', 'new file exists')
       return mul1.read('README')
     })
-    .then(null, function (output) {
-      t.equal(output, 'README: No such file or directory', 'old file is gone')
+    .catch(function (output) {
+      t.equal(output.message, 'README: No such file or directory', 'old file is gone')
     })
 
   const mul2 = emulator()
@@ -76,8 +77,8 @@ test('mv', function (t) {
       t.equal(output, 'read this first', 'move file to directory')
       return mul2.read('README')
     })
-    .then(null, function (output) {
-      t.equal(output, 'README: No such file or directory', 'old file is gone')
+    .catch(function (output) {
+      t.equal(output.message, 'README: No such file or directory', 'old file is gone')
     })
 
   const mul3 = emulator()
@@ -89,15 +90,15 @@ test('mv', function (t) {
     .then(function (output) {
       t.equal(output, 'read this first', 'move and overwrite a file')
       return mul3.read('README')
-    }).then(null, function (output) {
-      t.equal(output, 'README: No such file or directory', 'old file is gone')
+    }).catch(function (output) {
+      t.equal(output.message, 'README: No such file or directory', 'old file is gone')
     })
 
-  emulator().run('mv README err.log README').then(null, function (output) {
+  emulator().run('mv README err.log README').catch(function (output) {
     t.equal(output, 'mv: target ‘README’ is not a directory', 'fail if moving multiple files to file')
   })
 
-  emulator().run('mv README err.log /non/existent').then(null, function (output) {
+  emulator().run('mv README err.log /non/existent').catch(function (output) {
     t.equal(output, 'mv: target ‘/non/existent’ is not a directory', 'fail if moving multiple files to missing directory')
   })
 
@@ -107,12 +108,12 @@ test('mv', function (t) {
       t.equal(output, '', 'move multiple files to dir')
       return mul4.read('err.log')
     })
-    .then(null, function (output) {
-      t.equal(output, 'err.log: No such file or directory', 'old err.log is gone')
+    .catch(function (output) {
+      t.equal(output.message, 'err.log: No such file or directory', 'old err.log is gone')
       return mul4.read('README')
     })
-    .then(null, function (output) {
-      t.equal(output, 'README: No such file or directory', 'old README is gone')
+    .catch(function (output) {
+      t.equal(output.message, 'README: No such file or directory', 'old README is gone')
       return mul4.read('etc/err.log')
     })
     .then(function (output) {
@@ -125,13 +126,13 @@ test('mv', function (t) {
 
   const mul5 = emulator()
   mul5.run('mv README non-existent /etc')
-    .then(null, function (output) {
+    .catch(function (output) {
       t.equal(output, 'non-existent: No such file or directory', 'with multiple files and one failing others are still moved')
       return mul5.read('README')
     })
     .then(function () {
     }, function (output) {
-      t.equal(output, 'README: No such file or directory', 'old README is gone')
+      t.equal(output.message, 'README: No such file or directory', 'old README is gone')
     })
     .then(function () {
       return mul5.read('etc/README')
@@ -159,7 +160,7 @@ test('mv', function (t) {
       t.equal(output, '', 'no output on success')
       return mul7.read('README')
     })
-    .then(null, function (output) {
+    .catch(function (output) {
       t.ok(true, 'old file is gone')
       return mul7.read('new-location')
     }).then(function (output) {
@@ -172,11 +173,11 @@ test('mv', function (t) {
       t.equal(output, '', 'no output on success')
       return mul8.stat('somedir')
     })
-    .then(null, function () {
+    .catch(function () {
       t.ok(true, 'old directory is gone')
       return mul8.stat('somedir/subdir')
     })
-    .then(null, function () {
+    .catch(function () {
       t.ok(true, 'old sub-directory is gone')
       return mul8.stat('othername')
     })

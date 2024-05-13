@@ -1,5 +1,6 @@
 const test = require('tape')
 const bashEmulator = require('../../src')
+const FileType = require('../../src/utils/fileTypes')
 
 test('touch', function (t) {
   t.plan(8)
@@ -14,19 +15,19 @@ test('touch', function (t) {
         modified: Date.now()
       },
       '/file.txt': {
-        type: 'file',
+        type: FileType.File,
         modified: fileInitTime,
         content: 'first'
       },
       '/file2.txt': {
-        type: 'file',
+        type: FileType.File,
         modified: fileInitTime,
         content: 'first'
       }
     }
   })
 
-  emulator.run('touch').then(null, function (output) {
+  emulator.run('touch').catch(function (output) {
     t.equal(output, 'touch: missing file operand', 'fail without argument')
   })
 
@@ -57,13 +58,13 @@ test('touch', function (t) {
       })
   }, 50)
 
-  emulator.run('touch non/existent/filepath').then(null, function (err) {
+  emulator.run('touch non/existent/filepath').catch(function (err) {
     t.equal(err, '/non/existent: No such file or directory', 'fail with non-existent file location')
   })
 
   setTimeout(function () {
     emulator.run('touch file2.txt non/existent/filepath')
-      .then(null, function (err) {
+      .catch(function (err) {
         t.equal(err, '/non/existent: No such file or directory', 'fail with non-existent file location')
       })
       .then(function () {
