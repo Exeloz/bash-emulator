@@ -44,7 +44,7 @@ test('history', async (t) => {
   '    8  ls\n' +
   '    9  ls\n' +
   '   10  ls\n' +
-  '   11  history'
+  '   11  history 5'
 
   t.equal(limitedHistory, expectedLimitedHistory, 'formats history specified length')
 

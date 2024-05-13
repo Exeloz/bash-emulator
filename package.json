@@ -36,6 +36,7 @@
     "array.prototype.findindex": "^2.0.0",
     "firebase": "^10.11.1",
     "mocha": "^10.4.0",
+    "nock": "^13.5.4",
     "node-fetch": "^2.7.0",
     "nyc": "^15.1.0",
     "string.prototype.includes": "^1.0.0",
