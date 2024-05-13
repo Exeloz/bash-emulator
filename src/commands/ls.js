@@ -48,7 +48,7 @@ function ls (env, args) {
       for (let i = 1; i < arg.length; i++) {
         const flag = arg[i]
         if (!lsFlags[flag]) {
-          env.output(`ls: invalid flag: ${arg}`)
+          env.error(`ls: invalid option -- '${arg}'`)
           env.exit(2)
           return
         }
