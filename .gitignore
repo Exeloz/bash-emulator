@@ -3,4 +3,5 @@ npm-debug.log
 coverage
 .tern-port
 .firebase
+.nyc_output
 **.min.js*
