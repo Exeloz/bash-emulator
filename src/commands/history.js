@@ -3,8 +3,19 @@ const lineNumbers = require('../utils/lineNumber')
 // Default width for number column
 const numColumnWidth = 5
 
+function isInteger (str) {
+  const parsedInt = parseInt(str, 10)
+  return !isNaN(parsedInt) && parsedInt.toString() === str
+}
+
 function history (env, args) {
   const splicedHistoryLength = args.length === 1 ? null : args[1]
+
+  if (!(isInteger(splicedHistoryLength) || args.length === 1)) {
+    env.error(`history: ${splicedHistoryLength} numeric argument required`)
+    env.exit(1)
+    return
+  }
 
   env.system.getHistory().then(function (history) {
     const splicedHistory = history.filter(function (element, index) {
@@ -13,7 +24,8 @@ function history (env, args) {
       }
       return false
     })
-    env.output(lineNumbers.addLineNumbers(numColumnWidth, splicedHistory).join('\n'))
+    const offset = history.length - splicedHistory.length
+    env.output(lineNumbers.addLineNumbers(numColumnWidth, splicedHistory, offset).join('\n'))
     env.exit()
   })
 }
