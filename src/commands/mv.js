@@ -1,6 +1,6 @@
+import FileType from '../utils/fileTypes.js'
+import BashError from '../utils/errors.js'
 const SINGLE_COPY = 'SINGLE_COPY'
-const FileType = require('../utils/fileTypes')
-const BashError = require('../utils/errors')
 
 function mv (env, args) {
   // Ignore command name
@@ -74,4 +74,4 @@ function mv (env, args) {
     })
 }
 
-module.exports = mv
+export default mv

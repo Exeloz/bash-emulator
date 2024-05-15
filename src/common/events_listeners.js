@@ -1,6 +1,6 @@
-const completeCommand = require('./emulator_autocomplete')
-const adjustFontSize = require('./font_size_adjust')
-const run = require('./emulator_functions')
+import completeCommand from './emulator_autocomplete.js'
+import adjustFontSize from './font_size_adjust.js'
+import run from './emulator_functions.js'
 
 const ENTER = 13
 const UP = 38
@@ -113,4 +113,4 @@ function isModifierKey (e) {
   return e.altKey || e.metaKey || e.shiftKey
 }
 
-module.exports = attachEventListeners
+export default attachEventListeners

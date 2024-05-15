@@ -9,4 +9,4 @@ class BashError extends Error {
   }
 }
 
-module.exports = BashError
+export default BashError

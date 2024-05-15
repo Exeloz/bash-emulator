@@ -1,7 +1,11 @@
-const path = require('path')
-const TerserPlugin = require('terser-webpack-plugin')
+import path from 'path'
+import { fileURLToPath } from 'url'
+// import TerserPlugin from 'terser-webpack-plugin'; // Optional, commented out
 
-module.exports = {
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
+export default {
   // Set the mode for development or production
   mode: 'production', // Recommended for production builds, adjust for development
 
@@ -30,13 +34,13 @@ module.exports = {
       }
       // Add rules for other file types like CSS, images, etc. (optional)
     ]
-  },
-
-  // Optimization options for production builds
-  optimization: {
-    minimize: true, // Enable minification
-    minimizer: [
-      // new TerserPlugin(),
-    ]
   }
+
+  // Optimization options for production builds (optional, commented out)
+  // optimization: {
+  //   minimize: true, // Enable minification
+  //   minimizer: [
+  //     // new TerserPlugin(),
+  //   ],
+  // },
 }

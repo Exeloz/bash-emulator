@@ -44,4 +44,4 @@ async function updateInputPrefix () {
   )
 }
 
-module.exports = run
+export default run

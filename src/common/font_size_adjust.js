@@ -3,4 +3,4 @@ function adjustFontSize (body, multiplicativeDelta) {
   body.style.fontSize = Math.max(currentSize * multiplicativeDelta, 8) + 'px'
 }
 
-module.exports = adjustFontSize
+export default adjustFontSize

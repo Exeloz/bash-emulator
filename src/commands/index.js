@@ -1,16 +1,29 @@
+import cat from './cat.js'
+import cd from './cd.js'
+import cp from './cp.js'
+import history from './history.js'
+import ls from './ls.js'
+import man from './man.js'
+import mkdir from './mkdir.js'
+import mv from './mv.js'
+import pwd from './pwd.js'
+import rm from './rm.js'
+import rmdir from './rmdir.js'
+import touch from './touch.js'
+
 const commands = {
-  cat: require('./cat'),
-  cd: require('./cd'),
-  cp: require('./cp'),
-  history: require('./history'),
-  ls: require('./ls'),
-  man: require('./man'),
-  mkdir: require('./mkdir'),
-  mv: require('./mv'),
-  pwd: require('./pwd'),
-  rm: require('./rm'),
-  rmdir: require('./rmdir'),
-  touch: require('./touch')
+  cat,
+  cd,
+  cp,
+  history,
+  ls,
+  man,
+  mkdir,
+  mv,
+  pwd,
+  rm,
+  rmdir,
+  touch
 }
 
-module.exports = commands
+export default commands

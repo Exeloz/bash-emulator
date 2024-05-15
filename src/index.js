@@ -1,10 +1,11 @@
-require('array.prototype.findindex')
-require('string.prototype.startswith')
-require('string.prototype.includes')
-require('string.prototype.repeat')
-const commands = require('./commands')
-const FileType = require('./utils/fileTypes')
-const BashError = require('./utils/errors')
+import 'array.prototype.findIndex'
+import 'string.prototype.startsWith'
+import 'string.prototype.includes'
+import 'string.prototype.repeat'
+
+import commands from './commands/index.js'
+import FileType from './utils/fileTypes.js'
+import BashError from './utils/errors.js'
 
 function bashEmulator (initialState) {
   const state = createState(initialState)
@@ -336,4 +337,4 @@ function joinPaths (a, b) {
   return '/' + parts.join('/')
 }
 
-module.exports = bashEmulator
+export default bashEmulator

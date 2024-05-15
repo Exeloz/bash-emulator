@@ -1,4 +1,4 @@
-const lineNumbers = require('../utils/lineNumber')
+import { addLineNumbers } from '../utils/lineNumber.js'
 
 // Default width for number column
 const numColumnWidth = 5
@@ -25,9 +25,9 @@ function history (env, args) {
       return false
     })
     const offset = history.length - splicedHistory.length
-    env.output(lineNumbers.addLineNumbers(numColumnWidth, splicedHistory, offset).join('\n'))
+    env.output(addLineNumbers(numColumnWidth, splicedHistory, offset).join('\n'))
     env.exit()
   })
 }
 
-module.exports = history
+export default history

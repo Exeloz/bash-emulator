@@ -5,4 +5,4 @@ function pwd (env) {
   })
 }
 
-module.exports = pwd
+export default pwd

@@ -79,7 +79,7 @@ function ls (env, args) {
   }
 
   function excludeHidden (listing) {
-    return showHidden ? listing : listing.filter((item) => item[0] !== '.')
+    return showHidden ? lsFlags.a.handler(listing) : listing.filter((item) => item[0] !== '.')
   }
 
   function formatListing (base, listing) {
@@ -111,4 +111,4 @@ function ls (env, args) {
     })
 }
 
-module.exports = ls
+export default ls

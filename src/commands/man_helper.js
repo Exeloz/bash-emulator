@@ -1,4 +1,4 @@
-const fetch = require('node-fetch')
+import fetch from 'node-fetch'
 
 async function fetchManPage (env, command) {
   const url = `https://raw.githubusercontent.com/Exeloz/bash-emulator/master/src/manuals/${command}.txt`
@@ -20,4 +20,4 @@ async function fetchManPage (env, command) {
   env.exit()
 }
 
-module.exports = fetchManPage
+export default fetchManPage

@@ -20,4 +20,4 @@ function touch (env, args) {
     })
 }
 
-module.exports = touch
+export default touch

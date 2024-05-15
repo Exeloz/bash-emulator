@@ -1,5 +1,5 @@
-const FileType = require('../utils/fileTypes')
-const BashError = require('../utils/errors')
+import FileType from '../utils/fileTypes.js'
+import BashError from '../utils/errors.js'
 
 function rm (env, args) {
   args.shift()
@@ -39,4 +39,4 @@ function rm (env, args) {
     })
 }
 
-module.exports = rm
+export default rm

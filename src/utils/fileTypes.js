@@ -4,4 +4,4 @@ const FileType = {
   Link: 'link'
 }
 
-module.exports = FileType
+export default FileType

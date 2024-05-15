@@ -1,5 +1,5 @@
-const FileType = require('../utils/fileTypes')
-const BashError = require('../utils/errors')
+import FileType from '../utils/fileTypes.js'
+import BashError from '../utils/errors.js'
 
 function rmdir (env, args) {
   args.shift()
@@ -38,4 +38,4 @@ function rmdir (env, args) {
     })
 }
 
-module.exports = rmdir
+export default rmdir

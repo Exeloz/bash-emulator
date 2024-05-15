@@ -1,10 +1,9 @@
-const fetchManPage = require('./man_helper')
+import fetchManPage from './man_helper.js'
 
 function man (env, args) {
   if (args.length === 1) {
     env.error(
-      'What manual page do you want?' +
-      'For example, try \'man man\'.')
+      'What manual page do you want? For example, try \'man man\'.')
     env.exit(1)
     return
   }
@@ -14,4 +13,4 @@ function man (env, args) {
   fetchManPage(env, command)
 }
 
-module.exports = man
+export default man

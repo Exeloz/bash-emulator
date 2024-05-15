@@ -1,3 +1,8 @@
-window.run = require('./common/emulator_functions')
-window.attachEventListeners = require('./common/events_listeners')
-window.bashEmulator = require('./index')
+import emulatorFunctions from './common/emulator_functions.js'
+import attachEventListeners from './common/events_listeners.js'
+import bashEmulator from './index.js'
+
+window.run = emulatorFunctions
+window.attachEventListeners = attachEventListeners
+window.bashEmulator = bashEmulator
+   

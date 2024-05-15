@@ -1,6 +1,6 @@
+import FileType from '../utils/fileTypes.js'
+import BashError from '../utils/errors.js'
 const SINGLE_COPY = 'SINGLE_COPY'
-const FileType = require('../utils/fileTypes')
-const BashError = require('../utils/errors')
 
 function cp (env, args) {
   // Ignore command name
@@ -69,4 +69,4 @@ function cp (env, args) {
     })
 }
 
-module.exports = cp
+export default cp

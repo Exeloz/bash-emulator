@@ -22,4 +22,4 @@ function completeCommand (direction, input, emulator) {
   })
 }
 
-module.exports = completeCommand
+export default completeCommand

@@ -13,4 +13,4 @@ function cd (env, args) {
   )
 }
 
-module.exports = cd
+export default cd

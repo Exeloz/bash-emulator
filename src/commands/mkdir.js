@@ -20,4 +20,4 @@ function mkdir (env, args) {
     })
 }
 
-module.exports = mkdir
+export default mkdir

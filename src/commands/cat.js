@@ -1,4 +1,4 @@
-const lineNumber = require('../utils/lineNumber')
+import { addLineNumber, addLineNumbers } from '../utils/lineNumber.js'
 
 const numColumnWidth = 6
 const numberFlag = '-n'
@@ -24,7 +24,7 @@ function cat (env, args) {
           if (!l) {
             return
           }
-          const line = showNumbers ? lineNumber.addLineNumber(numColumnWidth, num, l) : l
+          const line = showNumbers ? addLineNumber(numColumnWidth, num, l) : l
           num++
           env.output(line + '\n')
         })
@@ -43,7 +43,7 @@ function cat (env, args) {
       })
     }))
     .then(function (contents) {
-      const lines = showNumbers ? lineNumber.addLineNumbers(numColumnWidth, contents) : contents
+      const lines = showNumbers ? addLineNumbers(numColumnWidth, contents) : contents
       lines.forEach(function (line) {
         env.output(line + '\n')
       })
@@ -51,4 +51,4 @@ function cat (env, args) {
     })
 }
 
-module.exports = cat
+export default cat
